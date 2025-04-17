@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor - Your Tools</title>
+    <meta name="description" content="Edit your videos online with this easy-to-use video editor. Trim, cut, add effects, and more for free.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .video-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .video-preview {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        .timeline {
+            height: 80px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .timeline-ruler {
+            height: 20px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+        }
+        
+        .timeline-marker {
+            height: 100%;
+            width: 1px;
+            background-color: #adb5bd;
+            position: relative;
+        }
+        
+        .timeline-time {
+            position: absolute;
+            top: 0;
+            font-size: 10px;
+            color: #6c757d;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-track {
+            height: 60px;
+            padding: 5px;
+            position: relative;
+        }
+        
+        .timeline-clip {
+            position: absolute;
+            top: 10px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 4px;
+            cursor: move;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            overflow: hidden;
+        }
+        
+        .playhead {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background-color: red;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        
+        .trim-handle {
+            position: absolute;
+            width: 8px;
+            height: 100%;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: col-resize;
+        }
+        
+        .trim-handle.left {
+            left: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .trim-handle.right {
+            right: 0;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        .effect-thumbnail {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+        
+        .effect-btn {
+            width: 100%;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .time-display {
+            font-family: monospace;
+            font-size: 16px;
+            color: #495057;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .drop-zone {
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 2rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .drop-zone:hover {
+            background-color: #e9ecef;
+        }
+        
+        .drop-zone.dragover {
+            background-color: #e3f2fd;
+            border-color: #0056b3;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <main class="container py-5">
+        <div class="tool-container">
+            <h1 class="tool-title">Video Editor</h1>
+            <p class="tool-description">Edit your videos online with this easy-to-use editor. Trim, crop, add effects, and more without installing any software.</p>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <div id="editor-section" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Video Preview -->
+                        <div class="video-container">
+                            <video id="video-preview" class="video-preview" controls>
+                                Your browser doesn't support HTML5 video.
+                            </video>
+                        </div>
+                        
+                        <!-- Video Controls -->
+                        <div class="controls text-center mb-3">
+                            <button id="play-btn" class="btn btn-primary me-2">
+                                <i class="fas fa-play"></i> Play
+                            </button>
+                            <button id="pause-btn" class="btn btn-secondary me-2">
+                                <i class="fas fa-pause"></i> Pause
+                            </button>
+                            <button id="trim-btn" class="btn btn-warning me-2">
+                                <i class="fas fa-cut"></i> Trim
+                            </button>
+                            <button id="undo-btn" class="btn btn-danger me-2">
+                                <i class="fas fa-undo"></i> Undo
+                            </button>
+                            <button id="export-btn" class="btn btn-success">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                        
+                        <!-- Time Display -->
+                        <div class="time-display">
+                            <span id="current-time">00:00:00</span> / <span id="total-time">00:00:00</span>
+                        </div>
+                        
+                        <!-- Timeline -->
+                        <div class="timeline">
+                            <div class="timeline-ruler" id="timeline-ruler"></div>
+                            <div class="timeline-track" id="timeline-track">
+                                <div class="playhead" id="playhead"></div>
+                                <div class="timeline-clip" id="main-clip" style="left: 0; width: 200px;">
+                                    <div class="trim-handle left" id="left-handle"></div>
+                                    <span>Clip 1</span>
+                                    <div class="trim-handle right" id="right-handle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- Effects & Filters -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Effects & Filters</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="effect-btn">
+                                            <img src="https://via.placeholder.com/150/888888/FFFFFF?text=Normal" class="effect-thumbnail" alt="Normal">
+                                            <button class="btn btn-sm btn-outline-primary" data-filter="normal">Normal</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="effect-btn">
+                                            <img src="https://via.placeholder.com/150/888888/FFFFFF?text=Grayscale" class="effect-thumbnail" alt="Grayscale">
+                                            <button class="btn btn-sm btn-outline-primary" data-filter="grayscale">Grayscale</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="effect-btn">
+                                            <img src="https://via.placeholder.com/150/888888/FFFFFF?text=Sepia" class="effect-thumbnail" alt="Sepia">
+                                            <button class="btn btn-sm btn-outline-primary" data-filter="sepia">Sepia</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="effect-btn">
+                                            <img src="https://via.placeholder.com/150/888888/FFFFFF?text=Invert" class="effect-thumbnail" alt="Invert">
+                                            <button class="btn btn-sm btn-outline-primary" data-filter="invert">Invert</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video Settings -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Video Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="brightness-range" class="form-label">Brightness</label>
+                                    <input type="range" class="form-range" id="brightness-range" min="0" max="200" value="100">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contrast-range" class="form-label">Contrast</label>
+                                    <input type="range" class="form-range" id="contrast-range" min="0" max="200" value="100">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="saturation-range" class="form-label">Saturation</label>
+                                    <input type="range" class="form-range" id="saturation-range" min="0" max="200" value="100">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="speed-range" class="form-label">Playback Speed</label>
+                                    <input type="range" class="form-range" id="speed-range" min="25" max="200" value="100">
+                                    <div class="text-end">
+                                        <span id="speed-value">1.0x</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Export Options -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Export Options</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="format-select" class="form-label">Output Format</label>
+                                    <select class="form-select" id="format-select">
+                                        <option value="mp4">MP4</option>
+                                        <option value="webm">WebM</option>
+                                        <option value="gif">GIF</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="quality-select" class="form-label">Quality</label>
+                                    <select class="form-select" id="quality-select">
+                                        <option value="high">High</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="resolution-select" class="form-label">Resolution</label>
+                                    <select class="form-select" id="resolution-select">
+                                        <option value="original">Original</option>
+                                        <option value="1080p">1080p</option>
+                                        <option value="720p">720p</option>
+                                        <option value="480p">480p</option>
+                                        <option value="360p">360p</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upload Section -->
+            <div id="upload-section">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div id="drop-zone" class="drop-zone">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Drag & Drop Your Video Here</h3>
+                            <p>or</p>
+                            <button class="btn btn-primary" id="select-video-btn">Select Video</button>
+                            <input type="file" id="video-input" accept="video/*" hidden>
+                            <p class="mt-3 text-muted">Supported formats: MP4, WebM, MOV, AVI (max 500MB)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <!-- Video Editing Tips -->
+            <div class="mt-5">
+                <h3>Video Editing Tips</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="fas fa-lightbulb text-warning me-2"></i>Trim with Precision</h5>
+                                <p>Use the trim handles on the timeline to precisely cut unwanted parts from the beginning or end of your video.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="fas fa-lightbulb text-warning me-2"></i>Apply Effects Sparingly</h5>
+                                <p>Use filters and effects with restraint. Too many effects can make your video look unprofessional.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="fas fa-lightbulb text-warning me-2"></i>Choose the Right Format</h5>
+                                <p>MP4 is great for general use, WebM for web videos, and GIF for short animations without sound.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="fas fa-lightbulb text-warning me-2"></i>Balance Quality vs Size</h5>
+                                <p>Higher quality exports look better but create larger files. Choose based on your needs and where you'll share the video.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer dynamically
+            loadComponent('header-placeholder', '../header.html');
+            loadComponent('footer-placeholder', '../footer.html');
+            
+            // Get elements
+            const dropZone = document.getElementById('drop-zone');
+            const videoInput = document.getElementById('video-input');
+            const selectVideoBtn = document.getElementById('select-video-btn');
+            const videoPreview = document.getElementById('video-preview');
+            const uploadSection = document.getElementById('upload-section');
+            const editorSection = document.getElementById('editor-section');
+            const playBtn = document.getElementById('play-btn');
+            const pauseBtn = document.getElementById('pause-btn');
+            const trimBtn = document.getElementById('trim-btn');
+            const undoBtn = document.getElementById('undo-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const currentTime = document.getElementById('current-time');
+            const totalTime = document.getElementById('total-time');
+            const playhead = document.getElementById('playhead');
+            const timelineTrack = document.getElementById('timeline-track');
+            const mainClip = document.getElementById('main-clip');
+            const leftHandle = document.getElementById('left-handle');
+            const rightHandle = document.getElementById('right-handle');
+            const timelineRuler = document.getElementById('timeline-ruler');
+            const filterButtons = document.querySelectorAll('[data-filter]');
+            const brightnessRange = document.getElementById('brightness-range');
+            const contrastRange = document.getElementById('contrast-range');
+            const saturationRange = document.getElementById('saturation-range');
+            const speedRange = document.getElementById('speed-range');
+            const speedValue = document.getElementById('speed-value');
+            
+            let isDragging = false;
+            let isLeftHandleDragging = false;
+            let isRightHandleDragging = false;
+            let startX = 0;
+            let clipStartPosition = 0;
+            let clipStartWidth = 0;
+            let timelineScale = 100; // pixels per second
+            let originalVideo = null;
+            let videoHistory = [];
+            let currentFilter = 'none';
+            
+            // Event Listeners
+            selectVideoBtn.addEventListener('click', () => {
+                videoInput.click();
+            });
+            
+            videoInput.addEventListener('change', handleVideoSelect);
+            
+            // Drag and drop functionality
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            
+            dropZone.addEventListener('dragleave', function() {
+                dropZone.classList.remove('dragover');
+            });
+            
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length) {
+                    videoInput.files = e.dataTransfer.files;
+                    handleVideoSelect();
+                }
+            });
+            
+            // Video control buttons
+            playBtn.addEventListener('click', function() {
+                videoPreview.play();
+            });
+            
+            pauseBtn.addEventListener('click', function() {
+                videoPreview.pause();
+            });
+            
+            trimBtn.addEventListener('click', function() {
+                // In a real implementation, this would trim the video based on handles
+                alert('Trim functionality would be implemented with a video processing library.');
+            });
+            
+            undoBtn.addEventListener('click', function() {
+                // In a real implementation, this would undo the last edit
+                alert('Undo functionality would be implemented with a video processing library.');
+            });
+            
+            exportBtn.addEventListener('click', function() {
+                // In a real implementation, this would export the edited video
+                alert('Export functionality would be implemented with a video processing library.');
+            });
+            
+            // Timeline and playhead functionality
+            videoPreview.addEventListener('timeupdate', function() {
+                updatePlayhead();
+                updateTimeDisplay();
+            });
+            
+            videoPreview.addEventListener('loadedmetadata', function() {
+                initializeTimeline();
+                updateTimeDisplay();
+            });
+            
+            timelineTrack.addEventListener('click', function(e) {
+                if (e.target === timelineTrack || e.target === timelineRuler) {
+                    const rect = timelineTrack.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const clickTime = clickX / timelineScale;
+                    
+                    if (clickTime <= videoPreview.duration) {
+                        videoPreview.currentTime = clickTime;
+                        updatePlayhead();
+                        updateTimeDisplay();
+                    }
+                }
+            });
+            
+            // Clip dragging functionality
+            mainClip.addEventListener('mousedown', function(e) {
+                if (e.target !== leftHandle && e.target !== rightHandle) {
+                    isDragging = true;
+                    startX = e.clientX;
+                    clipStartPosition = parseInt(mainClip.style.left);
+                    
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                    e.preventDefault();
+                }
+            });
+            
+            // Handle dragging functionality
+            leftHandle.addEventListener('mousedown', function(e) {
+                isLeftHandleDragging = true;
+                startX = e.clientX;
+                clipStartPosition = parseInt(mainClip.style.left);
+                clipStartWidth = parseInt(mainClip.style.width);
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault();
+            });
+            
+            rightHandle.addEventListener('mousedown', function(e) {
+                isRightHandleDragging = true;
+                startX = e.clientX;
+                clipStartWidth = parseInt(mainClip.style.width);
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault();
+            });
+            
+            // Effects and filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    applyFilter(filter);
+                });
+            });
+            
+            // Video settings sliders
+            brightnessRange.addEventListener('input', updateVideoFilters);
+            contrastRange.addEventListener('input', updateVideoFilters);
+            saturationRange.addEventListener('input', updateVideoFilters);
+            
+            speedRange.addEventListener('input', function() {
+                const speed = this.value / 100;
+                videoPreview.playbackRate = speed;
+                speedValue.textContent = speed.toFixed(1) + 'x';
+            });
+            
+            // Functions
+            function handleVideoSelect() {
+                const file = videoInput.files[0];
+                
+                if (file && file.type.match('video.*')) {
+                    const videoURL = URL.createObjectURL(file);
+                    
+                    videoPreview.src = videoURL;
+                    originalVideo = videoURL;
+                    
+                    // Show editor and hide upload section
+                    uploadSection.style.display = 'none';
+                    editorSection.style.display = 'block';
+                    
+                    // Reset settings
+                    resetVideoSettings();
+                }
+            }
+            
+            function initializeTimeline() {
+                const duration = videoPreview.duration;
+                
+                // Clear existing markers
+                timelineRuler.innerHTML = '';
+                
+                // Calculate number of markers needed
+                const markerCount = Math.ceil(duration);
+                
+                // Create timeline markers
+                for (let i = 0; i <= markerCount; i++) {
+                    const marker = document.createElement('div');
+                    marker.className = 'timeline-marker';
+                    marker.style.left = (i * timelineScale) + 'px';
+                    
+                    const timeLabel = document.createElement('div');
+                    timeLabel.className = 'timeline-time';
+                    timeLabel.textContent = formatTime(i);
+                    
+                    marker.appendChild(timeLabel);
+                    timelineRuler.appendChild(marker);
+                }
+                
+                // Set clip width based on video duration
+                mainClip.style.width = (duration * timelineScale) + 'px';
+            }
+            
+            function updatePlayhead() {
+                const currentPos = (videoPreview.currentTime / videoPreview.duration) * (timelineTrack.offsetWidth - 2);
+                playhead.style.left = currentPos + 'px';
+            }
+            
+            function updateTimeDisplay() {
+                currentTime.textContent = formatTime(videoPreview.currentTime);
+                totalTime.textContent = formatTime(videoPreview.duration);
+            }
+            
+            function formatTime(seconds) {
+                const h = Math.floor(seconds / 3600);
+                const m = Math.floor((seconds % 3600) / 60);
+                const s = Math.floor(seconds % 60);
+                
+                return [
+                    h.toString().padStart(2, '0'),
+                    m.toString().padStart(2, '0'),
+                    s.toString().padStart(2, '0')
+                ].join(':');
+            }
+            
+            function onMouseMove(e) {
+                if (isDragging) {
+                    const dx = e.clientX - startX;
+                    let newLeft = clipStartPosition + dx;
+                    
+                    // Constrain to timeline bounds
+                    newLeft = Math.max(0, newLeft);
+                    const maxLeft = timelineTrack.offsetWidth - parseInt(mainClip.style.width);
+                    newLeft = Math.min(maxLeft, newLeft);
+                    
+                    mainClip.style.left = newLeft + 'px';
+                }
+                else if (isLeftHandleDragging) {
+                    const dx = e.clientX - startX;
+                    let newLeft = clipStartPosition + dx;
+                    let newWidth = clipStartWidth - dx;
+                    
+                    // Constrain to valid values
+                    newLeft = Math.max(0, newLeft);
+                    newWidth = Math.max(50, newWidth); // Minimum width of 50px
+                    
+                    mainClip.style.left = newLeft + 'px';
+                    mainClip.style.width = newWidth + 'px';
+                }
+                else if (isRightHandleDragging) {
+                    const dx = e.clientX - startX;
+                    let newWidth = clipStartWidth + dx;
+                    
+                    // Constrain to valid values and timeline width
+                    newWidth = Math.max(50, newWidth); // Minimum width of 50px
+                    const maxWidth = timelineTrack.offsetWidth - parseInt(mainClip.style.left);
+                    newWidth = Math.min(maxWidth, newWidth);
+                    
+                    mainClip.style.width = newWidth + 'px';
+                }
+            }
+            
+            function onMouseUp() {
+                isDragging = false;
+                isLeftHandleDragging = false;
+                isRightHandleDragging = false;
+                
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+            
+            function applyFilter(filter) {
+                currentFilter = filter;
+                updateVideoFilters();
+            }
+            
+            function updateVideoFilters() {
+                const brightness = brightnessRange.value;
+                const contrast = contrastRange.value;
+                const saturation = saturationRange.value;
+                
+                let filterString = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
+                
+                // Add current effect filter
+                if (currentFilter === 'grayscale') {
+                    filterString += ' grayscale(100%)';
+                } else if (currentFilter === 'sepia') {
+                    filterString += ' sepia(100%)';
+                } else if (currentFilter === 'invert') {
+                    filterString += ' invert(100%)';
+                }
+                
+                videoPreview.style.filter = filterString;
+            }
+            
+            function resetVideoSettings() {
+                brightnessRange.value = 100;
+                contrastRange.value = 100;
+                saturationRange.value = 100;
+                speedRange.value = 100;
+                speedValue.textContent = '1.0x';
+                currentFilter = 'normal';
+                videoPreview.style.filter = 'none';
+                videoPreview.playbackRate = 1;
+            }
+            
+            // Load HTML components dynamically
+            function loadComponent(targetId, componentPath) {
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                
+                fetch(componentPath)
+                    .then(response => response.text())
+                    .then(html => {
+                        target.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error(`Error loading ${componentPath}:`, error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html> 

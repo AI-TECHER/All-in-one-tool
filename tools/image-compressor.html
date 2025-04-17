@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor - Reduce Image Size Without Losing Quality | Your Tools</title>
+    <meta name="description" content="Compress your images online for free. Reduce file size while maintaining quality. Support for JPG, PNG, GIF and more formats.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Header will be dynamically loaded -->
+    <div id="header-container"></div>
+
+    <main class="container py-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Tool Title and Description -->
+                <div class="tool-header mb-4">
+                    <h1>Image Compressor</h1>
+                    <p>Compress your images online to reduce file size while preserving quality. Perfect for websites, emails, and storage optimization.</p>
+                </div>
+
+                <!-- Advertisement -->
+                <div class="ad-container mb-4">
+                    <div class="ad-placeholder">
+                        <span>Advertisement</span>
+                    </div>
+                </div>
+
+                <!-- Image Compression Tool -->
+                <div class="tool-container">
+                    <!-- Upload Section -->
+                    <div class="upload-section text-center p-5 border rounded mb-4">
+                        <div id="drop-area" class="mx-auto mb-3">
+                            <i class="fas fa-cloud-upload-alt fa-4x mb-3"></i>
+                            <h4>Drag & Drop Images Here</h4>
+                            <p>or</p>
+                            <label for="file-input" class="btn btn-primary">
+                                <i class="fas fa-folder-open me-2"></i>Select Images
+                            </label>
+                            <input type="file" id="file-input" accept="image/*" multiple class="d-none">
+                        </div>
+                        <p class="text-muted">Supported formats: JPG, PNG, GIF, WebP, SVG (Max 10MB per file)</p>
+                    </div>
+
+                    <!-- Compression Options -->
+                    <div class="compression-options border rounded p-4 mb-4">
+                        <h4>Compression Options</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="quality" class="form-label">Quality: <span id="quality-value">80</span>%</label>
+                                <input type="range" class="form-range" id="quality" min="1" max="100" value="80">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="max-width" class="form-label">Max Width (px)</label>
+                                <input type="number" class="form-control" id="max-width" placeholder="Original" min="1">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="max-height" class="form-label">Max Height (px)</label>
+                                <input type="number" class="form-control" id="max-height" placeholder="Original" min="1">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="output-format" class="form-label">Output Format</label>
+                                <select class="form-select" id="output-format">
+                                    <option value="same">Same as input</option>
+                                    <option value="jpeg">JPEG</option>
+                                    <option value="png">PNG</option>
+                                    <option value="webp">WebP</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="preserve-exif" checked>
+                                    <label class="form-check-label" for="preserve-exif">
+                                        Preserve EXIF data
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button id="compress-btn" class="btn btn-primary" disabled>
+                                    <i class="fas fa-compress-alt me-2"></i>Compress Images
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Section (initially hidden) -->
+                    <div id="results-container" class="border rounded p-4 mb-4 d-none">
+                        <h4>Compression Results</h4>
+                        <div class="text-end mb-3">
+                            <button id="download-all" class="btn btn-success">
+                                <i class="fas fa-download me-2"></i>Download All
+                            </button>
+                        </div>
+                        <div id="results-list" class="list-group">
+                            <!-- Results will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Instructions -->
+                <div class="sidebar-widget mb-4">
+                    <h4>How to Use</h4>
+                    <ol>
+                        <li>Upload your images by dragging and dropping or selecting files</li>
+                        <li>Adjust compression options as needed:
+                            <ul>
+                                <li>Set quality level (lower = smaller file size)</li>
+                                <li>Set maximum dimensions (optional)</li>
+                                <li>Choose output format</li>
+                            </ul>
+                        </li>
+                        <li>Click "Compress Images" to process your files</li>
+                        <li>Download individual files or all compressed images</li>
+                    </ol>
+                </div>
+
+                <!-- Related Tools -->
+                <div class="sidebar-widget mb-4">
+                    <h4>Related Tools</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="image-resizer.html"><i class="fas fa-crop-alt me-2"></i>Image Resizer</a></li>
+                        <li class="list-group-item"><a href="image-converter.html"><i class="fas fa-exchange-alt me-2"></i>Image Converter</a></li>
+                        <li class="list-group-item"><a href="image-cropper.html"><i class="fas fa-cut me-2"></i>Image Cropper</a></li>
+                        <li class="list-group-item"><a href="webp-converter.html"><i class="fas fa-file-image me-2"></i>WebP Converter</a></li>
+                    </ul>
+                </div>
+
+                <!-- Advertisement -->
+                <div class="ad-container">
+                    <div class="ad-placeholder">
+                        <span>Advertisement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be dynamically loaded -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.0/browser-image-compression.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/image-compressor.js"></script>
+</body>
+</html> 

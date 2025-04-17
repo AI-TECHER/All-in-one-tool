@@ -1,1 +1,1 @@
-# All-in-one-tool
+# ALL-IN-ONE-TOOLS

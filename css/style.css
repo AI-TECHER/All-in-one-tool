@@ -1,0 +1,253 @@
+/* Global styles for Your Tools Website */
+
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Tool Container */
+.tool-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.tool-title {
+    color: #0d6efd;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.tool-description {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Cards for Tool Grid */
+.tool-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card .card-title {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.tool-card .card-body {
+    padding: 1.5rem;
+}
+
+.tool-card .card-text {
+    color: #6c757d;
+}
+
+.tool-card .card-icon {
+    font-size: 2.5rem;
+    color: #0d6efd;
+    margin-bottom: 1rem;
+}
+
+/* Category Sections */
+.category-section {
+    padding: 3rem 0;
+}
+
+.category-title {
+    position: relative;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: #0d6efd;
+    padding-bottom: 10px;
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #0d6efd;
+}
+
+/* Ad Containers */
+.ad-container {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 1rem;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ad-placeholder {
+    padding: 2rem;
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.hero-ad-section {
+    margin: 2rem 0;
+}
+
+.sidebar-ad {
+    margin-bottom: 2rem;
+}
+
+/* Search Results */
+.search-results {
+    display: none;
+    margin-top: 2rem;
+}
+
+.highlight {
+    background-color: #fff3cd;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .tool-container {
+        padding: 1.5rem;
+    }
+    
+    .category-section {
+        padding: 2rem 0;
+    }
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #222;
+    color: #f8f9fa;
+}
+
+.dark-mode .tool-container {
+    background-color: #333;
+}
+
+.dark-mode .tool-title {
+    color: #8bb9fe;
+}
+
+.dark-mode .tool-description {
+    color: #adb5bd;
+}
+
+.dark-mode .tool-card {
+    background-color: #333;
+    color: #f8f9fa;
+}
+
+.dark-mode .tool-card .card-title {
+    color: #8bb9fe;
+}
+
+.dark-mode .tool-card .card-text {
+    color: #adb5bd;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Tooltip styles */
+.tooltip-inner {
+    max-width: 200px;
+    padding: 8px 10px;
+    color: #fff;
+    text-align: center;
+    background-color: #000;
+    border-radius: 4px;
+}
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 50%;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.back-to-top:hover {
+    background-color: #0b5ed7;
+    color: white;
+}
+
+.back-to-top i {
+    line-height: 40px;
+}
+
+/* Home page hero section */
+.hero-section {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    color: white;
+    padding: 4rem 0;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 3rem;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.hero-search {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Loader */
+.loader {
+    display: none;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #0d6efd;
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} 

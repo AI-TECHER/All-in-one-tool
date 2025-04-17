@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator - Your Tools</title>
+    <meta name="description" content="Free online scientific calculator with advanced math functions, trigonometry, logarithms, and more. No downloads required.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .calculator {
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .calculator-screen {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-family: monospace;
+            padding: 10px;
+            text-align: right;
+            margin-bottom: 10px;
+            min-height: 60px;
+        }
+        .expression {
+            font-size: 14px;
+            color: #6c757d;
+            min-height: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-bottom: 5px;
+        }
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            min-height: 30px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .calculator-keys {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            padding: 10px;
+        }
+        .calculator-key {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            padding: 10px 0;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.1s;
+        }
+        .calculator-key:hover {
+            background-color: #f8f9fa;
+        }
+        .calculator-key:active {
+            background-color: #e9ecef;
+            transform: translateY(1px);
+        }
+        .key-function {
+            background-color: #e9ecef;
+        }
+        .key-operator {
+            background-color: #f1f8ff;
+        }
+        .key-equal {
+            background-color: #0d6efd;
+            color: white;
+            grid-column: span 2;
+        }
+        .key-clear {
+            background-color: #dc3545;
+            color: white;
+        }
+        .key-backspace {
+            background-color: #ffc107;
+        }
+        #angle-mode {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .calculator-tabs .nav-link {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .calculator-tabs .nav-link.active {
+            font-weight: bold;
+        }
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .history-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .history-item:hover {
+            background-color: #f8f9fa;
+        }
+        @media (max-width: 576px) {
+            .calculator-key {
+                font-size: 16px;
+                padding: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <main class="container py-5">
+        <div class="tool-container">
+            <h1 class="tool-title">Scientific Calculator</h1>
+            <p class="tool-description">Perform complex mathematical calculations with this advanced scientific calculator featuring trigonometric functions, logarithms, exponents, and more.</p>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Calculator Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Scientific Calculator</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav nav-tabs calculator-tabs mb-3" id="calculatorTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="calculator-tab" data-bs-toggle="tab" data-bs-target="#calculator-tab-pane" type="button" role="tab" aria-controls="calculator-tab-pane" aria-selected="true">Calculator</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history-tab-pane" type="button" role="tab" aria-controls="history-tab-pane" aria-selected="false">History</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="calculatorTabsContent">
+                                <div class="tab-pane fade show active" id="calculator-tab-pane" role="tabpanel" aria-labelledby="calculator-tab" tabindex="0">
+                                    <div class="calculator">
+                                        <div class="p-3">
+                                            <div id="angle-mode" class="mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="angleMode" id="degreeMode" value="deg" checked>
+                                                    <label class="form-check-label" for="degreeMode">DEG</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="angleMode" id="radianMode" value="rad">
+                                                    <label class="form-check-label" for="radianMode">RAD</label>
+                                                </div>
+                                            </div>
+                                            <div class="calculator-screen">
+                                                <div class="expression" id="expression"></div>
+                                                <div class="result" id="result">0</div>
+                                            </div>
+                                        </div>
+                                        <div class="calculator-keys">
+                                            <!-- Row 1 -->
+                                            <button class="calculator-key key-function" data-action="factorial">x!</button>
+                                            <button class="calculator-key key-function" data-action="square-root">√</button>
+                                            <button class="calculator-key key-function" data-action="power">^</button>
+                                            <button class="calculator-key key-function" data-action="log">log</button>
+                                            <button class="calculator-key key-function" data-action="ln">ln</button>
+                                            
+                                            <!-- Row 2 -->
+                                            <button class="calculator-key key-function" data-action="sin">sin</button>
+                                            <button class="calculator-key key-function" data-action="cos">cos</button>
+                                            <button class="calculator-key key-function" data-action="tan">tan</button>
+                                            <button class="calculator-key key-function" data-action="e">e</button>
+                                            <button class="calculator-key key-function" data-action="pi">π</button>
+                                            
+                                            <!-- Row 3 -->
+                                            <button class="calculator-key key-function" data-action="left-parenthesis">(</button>
+                                            <button class="calculator-key key-function" data-action="right-parenthesis">)</button>
+                                            <button class="calculator-key key-function" data-action="percentage">%</button>
+                                            <button class="calculator-key key-clear" data-action="clear">C</button>
+                                            <button class="calculator-key key-backspace" data-action="backspace">⌫</button>
+                                            
+                                            <!-- Row 4 -->
+                                            <button class="calculator-key" data-action="number">7</button>
+                                            <button class="calculator-key" data-action="number">8</button>
+                                            <button class="calculator-key" data-action="number">9</button>
+                                            <button class="calculator-key key-operator" data-action="divide">÷</button>
+                                            <button class="calculator-key key-function" data-action="mod">mod</button>
+                                            
+                                            <!-- Row 5 -->
+                                            <button class="calculator-key" data-action="number">4</button>
+                                            <button class="calculator-key" data-action="number">5</button>
+                                            <button class="calculator-key" data-action="number">6</button>
+                                            <button class="calculator-key key-operator" data-action="multiply">×</button>
+                                            <button class="calculator-key key-function" data-action="reciprocal">1/x</button>
+                                            
+                                            <!-- Row 6 -->
+                                            <button class="calculator-key" data-action="number">1</button>
+                                            <button class="calculator-key" data-action="number">2</button>
+                                            <button class="calculator-key" data-action="number">3</button>
+                                            <button class="calculator-key key-operator" data-action="subtract">-</button>
+                                            <button class="calculator-key key-function" data-action="absolute">|x|</button>
+                                            
+                                            <!-- Row 7 -->
+                                            <button class="calculator-key" data-action="number">0</button>
+                                            <button class="calculator-key" data-action="decimal">.</button>
+                                            <button class="calculator-key key-operator" data-action="add">+</button>
+                                            <button class="calculator-key key-equal" data-action="calculate">=</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="history-tab-pane" role="tabpanel" aria-labelledby="history-tab" tabindex="0">
+                                    <div class="history-list" id="history-list">
+                                        <div class="text-center text-muted p-3">No calculations yet</div>
+                                    </div>
+                                    <div class="d-grid mt-3">
+                                        <button class="btn btn-outline-danger" id="clear-history-btn">Clear History</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Calculator Features -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Available Functions</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-square-root-alt text-primary me-2"></i>Basic Operations</h6>
+                                    <p class="small">Addition (+), Subtraction (-), Multiplication (×), Division (÷)</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-superscript text-primary me-2"></i>Exponents & Roots</h6>
+                                    <p class="small">Square root (√), Power (^), Reciprocal (1/x)</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-calculator text-primary me-2"></i>Trigonometry</h6>
+                                    <p class="small">Sine, Cosine, Tangent with degree and radian modes</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-infinity text-primary me-2"></i>Constants</h6>
+                                    <p class="small">π (Pi), e (Euler's number)</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-chart-line text-primary me-2"></i>Logarithms</h6>
+                                    <p class="small">Natural logarithm (ln), Base-10 logarithm (log)</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-percentage text-primary me-2"></i>Miscellaneous</h6>
+                                    <p class="small">Percentage (%), Factorial (x!), Modulo (mod), Absolute value (|x|)</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Usage Tips -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Usage Tips</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-angle-right text-primary me-2"></i>
+                                    <strong>Angle Mode:</strong> Switch between degrees (DEG) and radians (RAD) for trigonometric functions
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-angle-right text-primary me-2"></i>
+                                    <strong>Parentheses:</strong> Use parentheses for complex expressions to control the order of operations
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-angle-right text-primary me-2"></i>
+                                    <strong>History:</strong> Access your previous calculations from the history tab
+                                </li>
+                                <li>
+                                    <i class="fas fa-angle-right text-primary me-2"></i>
+                                    <strong>Error Messages:</strong> Check for error messages if a calculation can't be performed
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.1.0/math.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer dynamically
+            loadComponent('header-placeholder', '../header.html');
+            loadComponent('footer-placeholder', '../footer.html');
+            
+            // Calculator elements
+            const expressionDisplay = document.getElementById('expression');
+            const resultDisplay = document.getElementById('result');
+            const calculatorKeys = document.querySelectorAll('.calculator-key');
+            const degreeModeRadio = document.getElementById('degreeMode');
+            const radianModeRadio = document.getElementById('radianMode');
+            const historyList = document.getElementById('history-list');
+            const clearHistoryBtn = document.getElementById('clear-history-btn');
+            
+            // Calculator state
+            let currentExpression = '';
+            let currentResult = '';
+            let shouldResetInput = false;
+            let calculationHistory = JSON.parse(localStorage.getItem('calculatorHistory')) || [];
+            
+            // Initialize calculator
+            updateDisplay();
+            renderHistory();
+            
+            // Event listeners
+            calculatorKeys.forEach(key => {
+                key.addEventListener('click', handleButtonClick);
+            });
+            
+            degreeModeRadio.addEventListener('change', updateTrigMode);
+            radianModeRadio.addEventListener('change', updateTrigMode);
+            
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            // Event handlers
+            function handleButtonClick(event) {
+                const key = event.target;
+                const action = key.dataset.action;
+                const keyContent = key.textContent;
+                
+                if (action === 'number') {
+                    handleNumber(keyContent);
+                } else if (action === 'decimal') {
+                    handleDecimal();
+                } else if (['add', 'subtract', 'multiply', 'divide'].includes(action)) {
+                    handleOperator(action);
+                } else if (action === 'calculate') {
+                    calculate();
+                } else if (action === 'clear') {
+                    clearCalculator();
+                } else if (action === 'backspace') {
+                    handleBackspace();
+                } else if (action === 'percentage') {
+                    handlePercentage();
+                } else if (action === 'left-parenthesis' || action === 'right-parenthesis') {
+                    handleParenthesis(keyContent);
+                } else if (['sin', 'cos', 'tan'].includes(action)) {
+                    handleTrigFunction(action);
+                } else if (action === 'square-root') {
+                    handleSquareRoot();
+                } else if (action === 'power') {
+                    handlePower();
+                } else if (action === 'log') {
+                    handleLog();
+                } else if (action === 'ln') {
+                    handleLn();
+                } else if (action === 'factorial') {
+                    handleFactorial();
+                } else if (action === 'e') {
+                    handleConstant('e');
+                } else if (action === 'pi') {
+                    handleConstant('pi');
+                } else if (action === 'mod') {
+                    handleMod();
+                } else if (action === 'reciprocal') {
+                    handleReciprocal();
+                } else if (action === 'absolute') {
+                    handleAbsolute();
+                }
+                
+                updateDisplay();
+            }
+            
+            // Helper functions
+            function handleNumber(number) {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                currentExpression += number;
+            }
+            
+            function handleDecimal() {
+                if (shouldResetInput) {
+                    currentExpression = '0';
+                    shouldResetInput = false;
+                }
+                
+                // Make sure we don't add multiple decimals to the same number
+                const lastNumberPattern = /[\d.]*$/;
+                const lastNumber = currentExpression.match(lastNumberPattern)[0];
+                
+                if (!lastNumber.includes('.')) {
+                    // If the last input is an operator or nothing, add a '0' before the decimal
+                    if (lastNumber === '' || /[\+\-\*\/\(]$/.test(currentExpression)) {
+                        currentExpression += '0';
+                    }
+                    currentExpression += '.';
+                }
+            }
+            
+            function handleOperator(action) {
+                if (currentExpression) {
+                    shouldResetInput = false;
+                    
+                    // Map action to operator symbol
+                    const operatorMap = {
+                        'add': '+',
+                        'subtract': '-',
+                        'multiply': '*',
+                        'divide': '/'
+                    };
+                    
+                    // Replace the last operator if the last character is an operator
+                    if (/[\+\-\*\/]$/.test(currentExpression)) {
+                        currentExpression = currentExpression.slice(0, -1) + operatorMap[action];
+                    } else {
+                        currentExpression += operatorMap[action];
+                    }
+                } else if (action === 'subtract') {
+                    // Allow negative sign at the beginning of expression
+                    currentExpression += '-';
+                }
+            }
+            
+            function calculate() {
+                if (!currentExpression) return;
+                
+                try {
+                    // Use math.js to evaluate the expression
+                    const expressionToEvaluate = prepareExpressionForEvaluation(currentExpression);
+                    const result = math.evaluate(expressionToEvaluate);
+                    
+                    // Format result
+                    currentResult = formatResult(result);
+                    
+                    // Add to history
+                    addToHistory(currentExpression, currentResult);
+                    
+                    // Reset for next input
+                    shouldResetInput = true;
+                } catch (error) {
+                    currentResult = 'Error';
+                }
+            }
+            
+            function prepareExpressionForEvaluation(expr) {
+                // Replace visual operators with math.js operators
+                return expr.replace(/×/g, '*').replace(/÷/g, '/');
+            }
+            
+            function formatResult(result) {
+                // Check if result is a number
+                if (typeof result === 'number') {
+                    // For very small or very large numbers, use scientific notation
+                    if (Math.abs(result) < 0.000001 || Math.abs(result) > 1000000000) {
+                        return result.toExponential(6);
+                    }
+                    
+                    // For other numbers, limit decimal places
+                    const precisionResult = parseFloat(result.toPrecision(12));
+                    
+                    // If the result is an integer
+                    if (precisionResult === Math.floor(precisionResult)) {
+                        return precisionResult.toString();
+                    }
+                    
+                    // For decimal numbers
+                    return precisionResult.toString();
+                }
+                
+                // For non-numeric results
+                return result.toString();
+            }
+            
+            function clearCalculator() {
+                currentExpression = '';
+                currentResult = '';
+                shouldResetInput = false;
+            }
+            
+            function handleBackspace() {
+                if (shouldResetInput) {
+                    clearCalculator();
+                } else {
+                    currentExpression = currentExpression.slice(0, -1);
+                }
+            }
+            
+            function handlePercentage() {
+                if (!currentExpression) return;
+                
+                try {
+                    // Convert the current expression to a percentage
+                    const value = math.evaluate(prepareExpressionForEvaluation(currentExpression));
+                    currentExpression = (value / 100).toString();
+                } catch (error) {
+                    currentResult = 'Error';
+                }
+            }
+            
+            function handleParenthesis(parenthesis) {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                currentExpression += parenthesis;
+            }
+            
+            function handleTrigFunction(func) {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                
+                // Check if in degree mode
+                const inDegreeMode = degreeModeRadio.checked;
+                const funcName = inDegreeMode ? func + 'Deg' : func;
+                
+                currentExpression += funcName + '(';
+            }
+            
+            function handleSquareRoot() {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                currentExpression += 'sqrt(';
+            }
+            
+            function handlePower() {
+                if (currentExpression) {
+                    currentExpression += '^';
+                    shouldResetInput = false;
+                }
+            }
+            
+            function handleLog() {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                currentExpression += 'log10(';
+            }
+            
+            function handleLn() {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                currentExpression += 'log(';
+            }
+            
+            function handleFactorial() {
+                if (currentExpression) {
+                    shouldResetInput = false;
+                    
+                    // Check if the last input is a closing parenthesis or a number
+                    if (/[\d\)]$/.test(currentExpression)) {
+                        // Try to parse the last number
+                        try {
+                            const expr = prepareExpressionForEvaluation(currentExpression);
+                            const result = math.evaluate(expr);
+                            
+                            // Calculate factorial only for positive integers
+                            if (Number.isInteger(result) && result >= 0) {
+                                currentExpression = math.factorial(result).toString();
+                            } else {
+                                // For non-integers or negative numbers
+                                currentExpression = `factorial(${currentExpression})`;
+                            }
+                        } catch (error) {
+                            currentExpression += '!';
+                        }
+                    } else {
+                        currentExpression += '!';
+                    }
+                }
+            }
+            
+            function handleConstant(constant) {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                
+                // Map constant names to their symbols
+                const constantMap = {
+                    'e': 'e',
+                    'pi': 'pi'
+                };
+                
+                currentExpression += constantMap[constant];
+            }
+            
+            function handleMod() {
+                if (currentExpression) {
+                    shouldResetInput = false;
+                    currentExpression += ' mod ';
+                }
+            }
+            
+            function handleReciprocal() {
+                if (currentExpression) {
+                    try {
+                        const expr = prepareExpressionForEvaluation(currentExpression);
+                        const result = math.evaluate(expr);
+                        currentExpression = (1 / result).toString();
+                    } catch (error) {
+                        currentResult = 'Error';
+                    }
+                }
+            }
+            
+            function handleAbsolute() {
+                if (shouldResetInput) {
+                    currentExpression = '';
+                    shouldResetInput = false;
+                }
+                currentExpression += 'abs(';
+            }
+            
+            function updateTrigMode() {
+                // This will affect how trig functions are calculated
+                // The actual implementation happens in handleTrigFunction
+            }
+            
+            function updateDisplay() {
+                expressionDisplay.textContent = formatExpressionForDisplay(currentExpression);
+                resultDisplay.textContent = currentResult || '0';
+            }
+            
+            function formatExpressionForDisplay(expr) {
+                // Replace operator symbols for display
+                return expr.replace(/\*/g, '×').replace(/\//g, '÷');
+            }
+            
+            // Custom trig functions in degrees
+            math.createUnit('deg', '0.01745329251994rad');
+            
+            math.sinDeg = function(x) {
+                return math.sin(math.unit(x, 'deg'));
+            };
+            
+            math.cosDeg = function(x) {
+                return math.cos(math.unit(x, 'deg'));
+            };
+            
+            math.tanDeg = function(x) {
+                return math.tan(math.unit(x, 'deg'));
+            };
+            
+            // History management
+            function addToHistory(expression, result) {
+                const historyItem = {
+                    expression: formatExpressionForDisplay(expression),
+                    result: result,
+                    timestamp: new Date().getTime()
+                };
+                
+                calculationHistory.unshift(historyItem);
+                
+                // Limit history to last 50 calculations
+                if (calculationHistory.length > 50) {
+                    calculationHistory.pop();
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('calculatorHistory', JSON.stringify(calculationHistory));
+                
+                renderHistory();
+            }
+            
+            function renderHistory() {
+                if (calculationHistory.length === 0) {
+                    historyList.innerHTML = '<div class="text-center text-muted p-3">No calculations yet</div>';
+                    return;
+                }
+                
+                historyList.innerHTML = '';
+                
+                calculationHistory.forEach((item, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <div class="text-muted small">${formatDate(item.timestamp)}</div>
+                        <div>${item.expression} = <strong>${item.result}</strong></div>
+                    `;
+                    
+                    historyItem.addEventListener('click', () => {
+                        currentExpression = item.expression;
+                        currentResult = item.result;
+                        updateDisplay();
+                    });
+                    
+                    historyList.appendChild(historyItem);
+                });
+            }
+            
+            function formatDate(timestamp) {
+                const date = new Date(timestamp);
+                return date.toLocaleString(undefined, { 
+                    month: 'short', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            function clearHistory() {
+                calculationHistory = [];
+                localStorage.removeItem('calculatorHistory');
+                renderHistory();
+            }
+            
+            // Load HTML components dynamically
+            function loadComponent(targetId, componentPath) {
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                
+                fetch(componentPath)
+                    .then(response => response.text())
+                    .then(html => {
+                        target.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error(`Error loading ${componentPath}:`, error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html> 

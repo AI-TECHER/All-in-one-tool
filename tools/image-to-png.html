@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PNG Converter - Your Tools</title>
+    <meta name="description" content="Convert your images to PNG format online for free. Supports JPG, WEBP, GIF, and other formats to PNG conversion.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 1rem auto;
+            display: block;
+        }
+        
+        .drop-zone {
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 2rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .drop-zone:hover {
+            background-color: #e9ecef;
+        }
+        
+        .drop-zone.dragover {
+            background-color: #e3f2fd;
+            border-color: #0056b3;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .file-info {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <main class="container py-5">
+        <div class="tool-container">
+            <h1 class="tool-title">Image to PNG Converter</h1>
+            <p class="tool-description">Convert your images from various formats (JPG, WEBP, GIF, etc.) to PNG format with transparency support.</p>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Image Upload Section -->
+                    <div class="mb-4">
+                        <div id="drop-zone" class="drop-zone">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Drag & Drop Your Image Here</h3>
+                            <p>or</p>
+                            <button class="btn btn-primary" id="select-image-btn">Select Image</button>
+                            <input type="file" id="image-input" accept="image/*" hidden>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Preview Section -->
+                    <div id="preview-section" style="display: none;">
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Original Image</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <img id="image-preview" class="image-preview mb-3" src="" alt="Original image">
+                                <div class="file-info" id="original-info">
+                                    <div class="row">
+                                        <div class="col-6 text-start">Format:</div>
+                                        <div class="col-6 text-end fw-bold" id="original-format">-</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 text-start">Size:</div>
+                                        <div class="col-6 text-end fw-bold" id="original-size">-</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 text-start">Dimensions:</div>
+                                        <div class="col-6 text-end fw-bold" id="original-dimensions">-</div>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-primary" id="convert-btn">Convert to PNG</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Result Section -->
+                    <div id="result-section" style="display: none;">
+                        <div class="card mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="card-title mb-0">Converted PNG Image</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <img id="result-image" class="image-preview mb-3" src="" alt="Converted PNG image">
+                                <div class="file-info" id="result-info">
+                                    <div class="row">
+                                        <div class="col-6 text-start">Format:</div>
+                                        <div class="col-6 text-end fw-bold">PNG</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 text-start">Size:</div>
+                                        <div class="col-6 text-end fw-bold" id="result-size">-</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 text-start">Dimensions:</div>
+                                        <div class="col-6 text-end fw-bold" id="result-dimensions">-</div>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-success" id="download-btn">Download PNG</button>
+                                    <button class="btn btn-secondary" id="reset-btn">Convert Another Image</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- About PNG Format -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">About PNG Format</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>PNG (Portable Network Graphics) is a raster graphics file format that supports lossless data compression.</p>
+                            <h6 class="fw-bold">Advantages of PNG:</h6>
+                            <ul>
+                                <li>Transparency support (alpha channel)</li>
+                                <li>Lossless compression (no quality loss)</li>
+                                <li>Better quality for images with text, lines, and edges</li>
+                                <li>No copyright issues (unlike GIF format)</li>
+                                <li>Support for 24-bit RGB color palette</li>
+                            </ul>
+                            <h6 class="fw-bold">Best Used For:</h6>
+                            <ul>
+                                <li>Images that need transparency</li>
+                                <li>Logos, icons, and graphics with sharp edges</li>
+                                <li>Screenshots</li>
+                                <li>Images with text</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Tips</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    PNG files are larger than JPG files but offer better quality.
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Use PNG for images that need transparency or sharp edges.
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    For photos and larger images, consider JPG format for smaller file size.
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    PNG files maintain the original quality of your image.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer dynamically
+            loadComponent('header-placeholder', '../header.html');
+            loadComponent('footer-placeholder', '../footer.html');
+            
+            // Get elements
+            const dropZone = document.getElementById('drop-zone');
+            const imageInput = document.getElementById('image-input');
+            const selectImageBtn = document.getElementById('select-image-btn');
+            const imagePreview = document.getElementById('image-preview');
+            const previewSection = document.getElementById('preview-section');
+            const resultSection = document.getElementById('result-section');
+            const resultImage = document.getElementById('result-image');
+            const convertBtn = document.getElementById('convert-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            // File information elements
+            const originalFormat = document.getElementById('original-format');
+            const originalSize = document.getElementById('original-size');
+            const originalDimensions = document.getElementById('original-dimensions');
+            const resultSize = document.getElementById('result-size');
+            const resultDimensions = document.getElementById('result-dimensions');
+            
+            let originalFile = null;
+            
+            // Event Listeners
+            selectImageBtn.addEventListener('click', () => {
+                imageInput.click();
+            });
+            
+            imageInput.addEventListener('change', handleImageSelect);
+            
+            // Drag and drop functionality
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            
+            dropZone.addEventListener('dragleave', function() {
+                dropZone.classList.remove('dragover');
+            });
+            
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length) {
+                    imageInput.files = e.dataTransfer.files;
+                    handleImageSelect();
+                }
+            });
+            
+            // Convert button
+            convertBtn.addEventListener('click', convertToPng);
+            
+            // Download button
+            downloadBtn.addEventListener('click', downloadPng);
+            
+            // Reset button
+            resetBtn.addEventListener('click', resetTool);
+            
+            // Functions
+            function handleImageSelect() {
+                const file = imageInput.files[0];
+                originalFile = file;
+                
+                if (file && file.type.match('image.*')) {
+                    // Get file information
+                    const fileName = file.name;
+                    const fileExtension = fileName.split('.').pop().toUpperCase();
+                    const fileSize = formatFileSize(file.size);
+                    
+                    // Update file info
+                    originalFormat.textContent = fileExtension;
+                    originalSize.textContent = fileSize;
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        // Load image to get dimensions
+                        const img = new Image();
+                        img.onload = function() {
+                            // Update dimensions
+                            originalDimensions.textContent = `${img.width} × ${img.height}`;
+                            
+                            // Update preview
+                            imagePreview.src = e.target.result;
+                            
+                            // Show preview section
+                            previewSection.style.display = 'block';
+                            resultSection.style.display = 'none';
+                        };
+                        img.src = e.target.result;
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            function convertToPng() {
+                if (!imagePreview.src) return;
+                
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Create image object
+                const img = new Image();
+                img.onload = function() {
+                    // Set canvas dimensions
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    // Draw image on canvas
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // Convert to PNG
+                    const pngDataUrl = canvas.toDataURL('image/png');
+                    
+                    // Display result
+                    resultImage.src = pngDataUrl;
+                    resultDimensions.textContent = `${img.width} × ${img.height}`;
+                    
+                    // Calculate file size
+                    const base64str = pngDataUrl.split(',')[1];
+                    const fileSize = Math.round((base64str.length * 3) / 4);
+                    resultSize.textContent = formatFileSize(fileSize);
+                    
+                    // Show result section
+                    resultSection.style.display = 'block';
+                };
+                img.src = imagePreview.src;
+            }
+            
+            function downloadPng() {
+                if (!resultImage.src) return;
+                
+                const link = document.createElement('a');
+                const originalFileName = originalFile ? originalFile.name.split('.')[0] : 'image';
+                link.download = `${originalFileName}.png`;
+                link.href = resultImage.src;
+                link.click();
+            }
+            
+            function resetTool() {
+                // Reset form
+                imageInput.value = '';
+                
+                // Reset preview
+                imagePreview.src = '';
+                originalFormat.textContent = '-';
+                originalSize.textContent = '-';
+                originalDimensions.textContent = '-';
+                
+                // Reset result
+                resultImage.src = '';
+                resultSize.textContent = '-';
+                resultDimensions.textContent = '-';
+                
+                // Reset sections
+                previewSection.style.display = 'none';
+                resultSection.style.display = 'none';
+                
+                // Reset variables
+                originalFile = null;
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) {
+                    return bytes + ' bytes';
+                } else if (bytes < 1048576) {
+                    return (bytes / 1024).toFixed(1) + ' KB';
+                } else {
+                    return (bytes / 1048576).toFixed(1) + ' MB';
+                }
+            }
+            
+            // Load HTML components dynamically
+            function loadComponent(targetId, componentPath) {
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                
+                fetch(componentPath)
+                    .then(response => response.text())
+                    .then(html => {
+                        target.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error(`Error loading ${componentPath}:`, error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html> 

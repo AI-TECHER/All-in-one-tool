@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator - Your Tools</title>
+    <meta name="description" content="Calculate percentages easily with this free online percentage calculator. Find percentage of a number, percentage increase/decrease, and more.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <main class="container py-5">
+        <div class="tool-container">
+            <h1 class="tool-title">Percentage Calculator</h1>
+            <p class="tool-description">Calculate percentages easily with this versatile calculator. Find percentage of a number, percentage change, and more.</p>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Calculator Types Tabs -->
+                    <ul class="nav nav-tabs mb-4" id="percentageCalcTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">
+                                <i class="fas fa-percentage me-2"></i>Basic Percentage
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="increase-decrease-tab" data-bs-toggle="tab" data-bs-target="#increase-decrease" type="button" role="tab" aria-controls="increase-decrease" aria-selected="false">
+                                <i class="fas fa-chart-line me-2"></i>Increase/Decrease
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="difference-tab" data-bs-toggle="tab" data-bs-target="#difference" type="button" role="tab" aria-controls="difference" aria-selected="false">
+                                <i class="fas fa-exchange-alt me-2"></i>Percentage Difference
+                            </button>
+                        </li>
+                    </ul>
+                    
+                    <!-- Calculator Content -->
+                    <div class="tab-content" id="percentageCalcTabContent">
+                        <!-- Basic Percentage Calculator -->
+                        <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="card-title mb-0">Basic Percentage Calculator</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="basic-form">
+                                        <div class="mb-3">
+                                            <label for="basic-calculation-type" class="form-label">What would you like to calculate?</label>
+                                            <select class="form-select" id="basic-calculation-type">
+                                                <option value="percentage-of-number">Percentage of a number (X% of Y)</option>
+                                                <option value="percentage-one-number-is-of-another">Percentage one number is of another (X is what % of Y)</option>
+                                                <option value="number-from-percentage">Number from percentage (X is Y% of what number)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div id="percentage-of-number-inputs">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="percentage1" class="form-label">Percentage (%)</label>
+                                                    <input type="number" class="form-control" id="percentage1" placeholder="Enter percentage" step="any">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="number1" class="form-label">Number</label>
+                                                    <input type="number" class="form-control" id="number1" placeholder="Enter number" step="any">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="percentage-one-number-is-of-another-inputs" style="display: none;">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="number2" class="form-label">First Number</label>
+                                                    <input type="number" class="form-control" id="number2" placeholder="Enter first number" step="any">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="number3" class="form-label">Second Number</label>
+                                                    <input type="number" class="form-control" id="number3" placeholder="Enter second number" step="any">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="number-from-percentage-inputs" style="display: none;">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="number4" class="form-label">Number</label>
+                                                    <input type="number" class="form-control" id="number4" placeholder="Enter number" step="any">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="percentage2" class="form-label">Percentage (%)</label>
+                                                    <input type="number" class="form-control" id="percentage2" placeholder="Enter percentage" step="any">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">Calculate</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <div class="mt-4" id="basic-result" style="display: none;">
+                                        <div class="alert alert-success" role="alert">
+                                            <h5 class="alert-heading">Result</h5>
+                                            <p id="basic-result-text" class="mb-0 fs-5"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Percentage Increase/Decrease Calculator -->
+                        <div class="tab-pane fade" id="increase-decrease" role="tabpanel" aria-labelledby="increase-decrease-tab">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="card-title mb-0">Percentage Increase/Decrease Calculator</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="increase-decrease-form">
+                                        <div class="mb-3">
+                                            <label for="increase-decrease-type" class="form-label">What would you like to calculate?</label>
+                                            <select class="form-select" id="increase-decrease-type">
+                                                <option value="calculate-increase-decrease">Calculate percentage increase/decrease</option>
+                                                <option value="increase-by-percentage">Increase a number by percentage</option>
+                                                <option value="decrease-by-percentage">Decrease a number by percentage</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div id="calculate-increase-decrease-inputs">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="original-value" class="form-label">Original Value</label>
+                                                    <input type="number" class="form-control" id="original-value" placeholder="Enter original value" step="any">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="new-value" class="form-label">New Value</label>
+                                                    <input type="number" class="form-control" id="new-value" placeholder="Enter new value" step="any">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="increase-by-percentage-inputs" style="display: none;">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="increase-number" class="form-label">Number</label>
+                                                    <input type="number" class="form-control" id="increase-number" placeholder="Enter number" step="any">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="increase-percentage" class="form-label">Percentage (%)</label>
+                                                    <input type="number" class="form-control" id="increase-percentage" placeholder="Enter percentage" step="any">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="decrease-by-percentage-inputs" style="display: none;">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="decrease-number" class="form-label">Number</label>
+                                                    <input type="number" class="form-control" id="decrease-number" placeholder="Enter number" step="any">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="decrease-percentage" class="form-label">Percentage (%)</label>
+                                                    <input type="number" class="form-control" id="decrease-percentage" placeholder="Enter percentage" step="any">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">Calculate</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <div class="mt-4" id="increase-decrease-result" style="display: none;">
+                                        <div class="alert alert-success" role="alert">
+                                            <h5 class="alert-heading">Result</h5>
+                                            <p id="increase-decrease-result-text" class="mb-0 fs-5"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Percentage Difference Calculator -->
+                        <div class="tab-pane fade" id="difference" role="tabpanel" aria-labelledby="difference-tab">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="card-title mb-0">Percentage Difference Calculator</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="difference-form">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="value1" class="form-label">First Value</label>
+                                                <input type="number" class="form-control" id="value1" placeholder="Enter first value" step="any">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="value2" class="form-label">Second Value</label>
+                                                <input type="number" class="form-control" id="value2" placeholder="Enter second value" step="any">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">Calculate</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <div class="mt-4" id="difference-result" style="display: none;">
+                                        <div class="alert alert-success" role="alert">
+                                            <h5 class="alert-heading">Result</h5>
+                                            <p id="difference-result-text" class="mb-0 fs-5"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Common Percentage Formulas -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Percentage Formulas</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="fw-bold">Basic Percentage Formulas:</h6>
+                            <ul>
+                                <li><strong>X% of Y:</strong> (X ÷ 100) × Y</li>
+                                <li><strong>X is what % of Y:</strong> (X ÷ Y) × 100</li>
+                                <li><strong>X is Y% of what number:</strong> X ÷ (Y ÷ 100)</li>
+                            </ul>
+                            <h6 class="fw-bold">Percentage Change Formulas:</h6>
+                            <ul>
+                                <li><strong>% Increase/Decrease:</strong> ((New Value - Original Value) ÷ Original Value) × 100</li>
+                                <li><strong>Increase by X%:</strong> Original × (1 + (X ÷ 100))</li>
+                                <li><strong>Decrease by X%:</strong> Original × (1 - (X ÷ 100))</li>
+                            </ul>
+                            <h6 class="fw-bold">Percentage Difference:</h6>
+                            <ul>
+                                <li><strong>% Difference:</strong> (|Value1 - Value2| ÷ ((Value1 + Value2) ÷ 2)) × 100</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Percentage Applications -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Percentage Applications</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-shopping-cart text-primary me-2"></i>
+                                    <strong>Sales & Discounts</strong> - Calculate sale prices and savings
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-chart-pie text-primary me-2"></i>
+                                    <strong>Business</strong> - Profit margins, growth rates, market share
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-money-bill-wave text-primary me-2"></i>
+                                    <strong>Finance</strong> - Interest rates, tax calculations, investments
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                    <strong>Education</strong> - Grading, test scores, academic performance
+                                </li>
+                                <li>
+                                    <i class="fas fa-chart-line text-primary me-2"></i>
+                                    <strong>Statistics</strong> - Data analysis, demographic trends
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer dynamically
+            loadComponent('header-placeholder', '../header.html');
+            loadComponent('footer-placeholder', '../footer.html');
+            
+            // Basic Percentage Calculator
+            const basicForm = document.getElementById('basic-form');
+            const basicCalcType = document.getElementById('basic-calculation-type');
+            const basicResult = document.getElementById('basic-result');
+            const basicResultText = document.getElementById('basic-result-text');
+            
+            // Show/hide inputs based on calculation type
+            basicCalcType.addEventListener('change', function() {
+                document.getElementById('percentage-of-number-inputs').style.display = 'none';
+                document.getElementById('percentage-one-number-is-of-another-inputs').style.display = 'none';
+                document.getElementById('number-from-percentage-inputs').style.display = 'none';
+                
+                document.getElementById(this.value + '-inputs').style.display = 'block';
+            });
+            
+            // Basic form submission
+            basicForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const calculationType = basicCalcType.value;
+                let result = 0;
+                
+                if (calculationType === 'percentage-of-number') {
+                    const percentage = parseFloat(document.getElementById('percentage1').value);
+                    const number = parseFloat(document.getElementById('number1').value);
+                    
+                    if (!isNaN(percentage) && !isNaN(number)) {
+                        result = (percentage / 100) * number;
+                        basicResultText.textContent = `${percentage}% of ${number} = ${result.toFixed(2)}`;
+                        basicResult.style.display = 'block';
+                    }
+                } else if (calculationType === 'percentage-one-number-is-of-another') {
+                    const firstNumber = parseFloat(document.getElementById('number2').value);
+                    const secondNumber = parseFloat(document.getElementById('number3').value);
+                    
+                    if (!isNaN(firstNumber) && !isNaN(secondNumber) && secondNumber !== 0) {
+                        result = (firstNumber / secondNumber) * 100;
+                        basicResultText.textContent = `${firstNumber} is ${result.toFixed(2)}% of ${secondNumber}`;
+                        basicResult.style.display = 'block';
+                    }
+                } else if (calculationType === 'number-from-percentage') {
+                    const number = parseFloat(document.getElementById('number4').value);
+                    const percentage = parseFloat(document.getElementById('percentage2').value);
+                    
+                    if (!isNaN(number) && !isNaN(percentage) && percentage !== 0) {
+                        result = number / (percentage / 100);
+                        basicResultText.textContent = `${number} is ${percentage}% of ${result.toFixed(2)}`;
+                        basicResult.style.display = 'block';
+                    }
+                }
+            });
+            
+            // Percentage Increase/Decrease Calculator
+            const increaseDecreaseForm = document.getElementById('increase-decrease-form');
+            const increaseDecreaseType = document.getElementById('increase-decrease-type');
+            const increaseDecreaseResult = document.getElementById('increase-decrease-result');
+            const increaseDecreaseResultText = document.getElementById('increase-decrease-result-text');
+            
+            // Show/hide inputs based on calculation type
+            increaseDecreaseType.addEventListener('change', function() {
+                document.getElementById('calculate-increase-decrease-inputs').style.display = 'none';
+                document.getElementById('increase-by-percentage-inputs').style.display = 'none';
+                document.getElementById('decrease-by-percentage-inputs').style.display = 'none';
+                
+                document.getElementById(this.value + '-inputs').style.display = 'block';
+            });
+            
+            // Increase/Decrease form submission
+            increaseDecreaseForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const calculationType = increaseDecreaseType.value;
+                let result = 0;
+                
+                if (calculationType === 'calculate-increase-decrease') {
+                    const originalValue = parseFloat(document.getElementById('original-value').value);
+                    const newValue = parseFloat(document.getElementById('new-value').value);
+                    
+                    if (!isNaN(originalValue) && !isNaN(newValue) && originalValue !== 0) {
+                        const change = newValue - originalValue;
+                        const percentageChange = (change / Math.abs(originalValue)) * 100;
+                        
+                        if (change > 0) {
+                            increaseDecreaseResultText.textContent = `Percentage Increase: ${percentageChange.toFixed(2)}%`;
+                        } else if (change < 0) {
+                            increaseDecreaseResultText.textContent = `Percentage Decrease: ${Math.abs(percentageChange).toFixed(2)}%`;
+                        } else {
+                            increaseDecreaseResultText.textContent = `No Change: 0%`;
+                        }
+                        
+                        increaseDecreaseResult.style.display = 'block';
+                    }
+                } else if (calculationType === 'increase-by-percentage') {
+                    const number = parseFloat(document.getElementById('increase-number').value);
+                    const percentage = parseFloat(document.getElementById('increase-percentage').value);
+                    
+                    if (!isNaN(number) && !isNaN(percentage)) {
+                        result = number * (1 + (percentage / 100));
+                        increaseDecreaseResultText.textContent = `${number} increased by ${percentage}% = ${result.toFixed(2)}`;
+                        increaseDecreaseResult.style.display = 'block';
+                    }
+                } else if (calculationType === 'decrease-by-percentage') {
+                    const number = parseFloat(document.getElementById('decrease-number').value);
+                    const percentage = parseFloat(document.getElementById('decrease-percentage').value);
+                    
+                    if (!isNaN(number) && !isNaN(percentage)) {
+                        result = number * (1 - (percentage / 100));
+                        increaseDecreaseResultText.textContent = `${number} decreased by ${percentage}% = ${result.toFixed(2)}`;
+                        increaseDecreaseResult.style.display = 'block';
+                    }
+                }
+            });
+            
+            // Percentage Difference Calculator
+            const differenceForm = document.getElementById('difference-form');
+            const differenceResult = document.getElementById('difference-result');
+            const differenceResultText = document.getElementById('difference-result-text');
+            
+            // Difference form submission
+            differenceForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const value1 = parseFloat(document.getElementById('value1').value);
+                const value2 = parseFloat(document.getElementById('value2').value);
+                
+                if (!isNaN(value1) && !isNaN(value2)) {
+                    const difference = Math.abs(value1 - value2);
+                    const average = (value1 + value2) / 2;
+                    
+                    if (average !== 0) {
+                        const percentageDifference = (difference / Math.abs(average)) * 100;
+                        differenceResultText.textContent = `Percentage Difference between ${value1} and ${value2}: ${percentageDifference.toFixed(2)}%`;
+                        differenceResult.style.display = 'block';
+                    }
+                }
+            });
+            
+            // Load HTML components dynamically
+            function loadComponent(targetId, componentPath) {
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                
+                fetch(componentPath)
+                    .then(response => response.text())
+                    .then(html => {
+                        target.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error(`Error loading ${componentPath}:`, error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html> 

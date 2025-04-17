@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter & Validator | Your Tools</title>
+    <meta name="description" content="Free online JSON formatter, validator and beautifier tool. Validate, format, minify, and beautify your JSON data.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .json-line-numbers {
+            counter-reset: line;
+            border-right: 1px solid #ddd;
+            padding: 0.5rem;
+            margin-right: 0.5rem;
+            color: #888;
+            text-align: right;
+            user-select: none;
+        }
+        
+        .json-line-numbers span {
+            counter-increment: line;
+            display: block;
+            line-height: 1.5rem;
+        }
+        
+        .json-line-numbers span::before {
+            content: counter(line);
+            display: block;
+        }
+        
+        .json-output {
+            position: relative;
+            max-height: 500px;
+            overflow: auto;
+        }
+        
+        .error-highlight {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+        
+        .code-wrapper {
+            display: flex;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="container my-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="tool-container">
+                    <h1 class="tool-title">JSON Formatter & Validator</h1>
+                    <p class="tool-description">Format, validate, minify, or beautify your JSON data. Makes JSON readable and helps find syntax errors.</p>
+                    
+                    <div class="ad-container my-3 text-center">
+                        <div class="ad-placeholder">Advertisement Space</div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">JSON Input</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <textarea id="jsonInput" class="form-control" rows="10" placeholder="Paste your JSON here..."></textarea>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex mb-3">
+                                <button id="formatBtn" class="btn btn-primary">
+                                    <i class="fas fa-indent"></i> Beautify
+                                </button>
+                                <button id="minifyBtn" class="btn btn-secondary">
+                                    <i class="fas fa-compress"></i> Minify
+                                </button>
+                                <button id="validateBtn" class="btn btn-success">
+                                    <i class="fas fa-check-circle"></i> Validate
+                                </button>
+                                <button id="clearBtn" class="btn btn-outline-secondary">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
+                                <button id="sampleBtn" class="btn btn-outline-info">
+                                    <i class="fas fa-lightbulb"></i> Sample
+                                </button>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="autoFormat" checked>
+                                <label class="form-check-label" for="autoFormat">Auto-format on paste</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Formatted Output</h5>
+                            <div>
+                                <button id="copyBtn" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <button id="downloadBtn" class="btn btn-sm btn-outline-primary ms-2">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="validationResult" class="alert d-none mb-3"></div>
+                            
+                            <div class="code-wrapper">
+                                <div class="json-line-numbers" id="lineNumbers"></div>
+                                <pre class="json-output"><code id="jsonOutput" class="language-json"></code></pre>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between small">
+                                    <div>
+                                        <span id="jsonStats">0 characters, 0 lines</span>
+                                    </div>
+                                    <div>
+                                        <span id="jsonSize">0 bytes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">How to Use</h5>
+                        </div>
+                        <div class="card-body">
+                            <ol>
+                                <li>Paste your JSON data into the input field</li>
+                                <li>Click the appropriate button:
+                                    <ul>
+                                        <li><strong>Beautify:</strong> Format JSON with proper indentation (2 spaces)</li>
+                                        <li><strong>Minify:</strong> Remove all whitespace to minimize size</li>
+                                        <li><strong>Validate:</strong> Check if JSON is valid without changing format</li>
+                                    </ul>
+                                </li>
+                                <li>View the formatted output with syntax highlighting</li>
+                                <li>Copy or download the formatted JSON</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">JSON Tips</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Common JSON Validation Errors:</h6>
+                            <ul>
+                                <li>Missing or extra commas between properties</li>
+                                <li>Unquoted property names (all keys must be in double quotes)</li>
+                                <li>Single quotes instead of double quotes</li>
+                                <li>Trailing commas in arrays or objects</li>
+                                <li>Using comments (JSON doesn't support comments)</li>
+                                <li>Using undefined or NaN values</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">Related Tools</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="url-encoder-decoder.html">URL Encoder/Decoder</a></li>
+                                <li class="list-group-item"><a href="base64-encoder-decoder.html">Base64 Encoder/Decoder</a></li>
+                                <li class="list-group-item"><a href="html-to-markdown.html">HTML to Markdown Converter</a></li>
+                                <li class="list-group-item"><a href="xml-formatter.html">XML Formatter</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">About JSON</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for humans to read and write and easy for machines to parse and generate.</p>
+                            <p>It is based on a subset of JavaScript but is language-independent and used by many programming languages for data exchange.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ad-container">
+                        <div class="ad-placeholder">Advertisement Space</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const jsonInput = document.getElementById('jsonInput');
+            const jsonOutput = document.getElementById('jsonOutput');
+            const lineNumbers = document.getElementById('lineNumbers');
+            const formatBtn = document.getElementById('formatBtn');
+            const minifyBtn = document.getElementById('minifyBtn');
+            const validateBtn = document.getElementById('validateBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const sampleBtn = document.getElementById('sampleBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const autoFormat = document.getElementById('autoFormat');
+            const validationResult = document.getElementById('validationResult');
+            const jsonStats = document.getElementById('jsonStats');
+            const jsonSize = document.getElementById('jsonSize');
+            
+            // Function to pretty format JSON
+            function beautifyJSON() {
+                try {
+                    const json = JSON.parse(jsonInput.value);
+                    const formatted = JSON.stringify(json, null, 2);
+                    displayOutput(formatted, true);
+                    showValidationSuccess();
+                } catch (error) {
+                    displayOutput(jsonInput.value, false);
+                    showValidationError(error);
+                }
+            }
+            
+            // Function to minify JSON
+            function minifyJSON() {
+                try {
+                    const json = JSON.parse(jsonInput.value);
+                    const minified = JSON.stringify(json);
+                    displayOutput(minified, true);
+                    showValidationSuccess();
+                } catch (error) {
+                    displayOutput(jsonInput.value, false);
+                    showValidationError(error);
+                }
+            }
+            
+            // Function to validate JSON
+            function validateJSON() {
+                try {
+                    JSON.parse(jsonInput.value);
+                    showValidationSuccess();
+                } catch (error) {
+                    showValidationError(error);
+                }
+            }
+            
+            // Function to display formatted output with syntax highlighting
+            function displayOutput(text, highlight = true) {
+                // Update line numbers
+                const lines = text.split('\n');
+                updateLineNumbers(lines.length);
+                
+                // Display JSON
+                jsonOutput.textContent = text;
+                
+                // Update stats
+                updateStats(text);
+                
+                // Apply syntax highlighting if needed
+                if (highlight) {
+                    Prism.highlightElement(jsonOutput);
+                }
+            }
+            
+            // Function to update line numbers
+            function updateLineNumbers(count) {
+                lineNumbers.innerHTML = '';
+                for (let i = 0; i < count; i++) {
+                    const span = document.createElement('span');
+                    lineNumbers.appendChild(span);
+                }
+            }
+            
+            // Function to update JSON stats
+            function updateStats(text) {
+                const charCount = text.length;
+                const lineCount = text.split('\n').length;
+                const byteSize = new Blob([text]).size;
+                
+                jsonStats.textContent = `${charCount.toLocaleString()} characters, ${lineCount} lines`;
+                jsonSize.textContent = formatBytes(byteSize);
+            }
+            
+            // Function to format bytes to human-readable format
+            function formatBytes(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Function to show validation success
+            function showValidationSuccess() {
+                validationResult.textContent = 'JSON is valid!';
+                validationResult.classList.remove('d-none', 'alert-danger');
+                validationResult.classList.add('alert-success');
+            }
+            
+            // Function to show validation error
+            function showValidationError(error) {
+                validationResult.textContent = `Error: ${error.message}`;
+                validationResult.classList.remove('d-none', 'alert-success');
+                validationResult.classList.add('alert-danger');
+            }
+            
+            // Function to provide sample JSON
+            function loadSample() {
+                const sampleJSON = {
+                    "glossary": {
+                        "title": "example glossary",
+                        "GlossDiv": {
+                            "title": "S",
+                            "GlossList": {
+                                "GlossEntry": {
+                                    "ID": "SGML",
+                                    "SortAs": "SGML",
+                                    "GlossTerm": "Standard Generalized Markup Language",
+                                    "Acronym": "SGML",
+                                    "Abbrev": "ISO 8879:1986",
+                                    "GlossDef": {
+                                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                                        "GlossSeeAlso": ["GML", "XML"]
+                                    },
+                                    "GlossSee": "markup"
+                                }
+                            }
+                        }
+                    }
+                };
+                
+                jsonInput.value = JSON.stringify(sampleJSON);
+                beautifyJSON();
+            }
+            
+            // Function to copy formatted JSON to clipboard
+            function copyToClipboard() {
+                const textToCopy = jsonOutput.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Visual feedback
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                    }, 1500);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            }
+            
+            // Function to download JSON file
+            function downloadJSON() {
+                const text = jsonOutput.textContent;
+                const blob = new Blob([text], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'formatted.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+            
+            // Event listeners
+            formatBtn.addEventListener('click', beautifyJSON);
+            minifyBtn.addEventListener('click', minifyJSON);
+            validateBtn.addEventListener('click', validateJSON);
+            clearBtn.addEventListener('click', function() {
+                jsonInput.value = '';
+                jsonOutput.textContent = '';
+                updateLineNumbers(0);
+                updateStats('');
+                validationResult.classList.add('d-none');
+            });
+            sampleBtn.addEventListener('click', loadSample);
+            copyBtn.addEventListener('click', copyToClipboard);
+            downloadBtn.addEventListener('click', downloadJSON);
+            
+            // Auto-format on paste if enabled
+            jsonInput.addEventListener('paste', function() {
+                if (autoFormat.checked) {
+                    setTimeout(beautifyJSON, 0);
+                }
+            });
+            
+            // Initialize with empty output
+            updateLineNumbers(0);
+            updateStats('');
+        });
+    </script>
+</body>
+</html> 

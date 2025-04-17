@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoder/Decoder | Your Tools</title>
+    <meta name="description" content="Free URL encoder and decoder tool to convert URLs between encoded and decoded formats. Supports component and URI encoding standards.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="container my-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="tool-container">
+                    <h1 class="tool-title">URL Encoder/Decoder</h1>
+                    <p class="tool-description">Encode or decode URLs and URI components. Convert special characters to URL-safe formats and vice versa.</p>
+                    
+                    <div class="ad-container my-3 text-center">
+                        <div class="ad-placeholder">Advertisement Space</div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" id="urlTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="encode-tab" data-bs-toggle="tab" data-bs-target="#encode" type="button" role="tab" aria-controls="encode" aria-selected="true">Encode</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="decode-tab" data-bs-toggle="tab" data-bs-target="#decode" type="button" role="tab" aria-controls="decode" aria-selected="false">Decode</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="urlTabsContent">
+                                <!-- Encode Tab -->
+                                <div class="tab-pane fade show active" id="encode" role="tabpanel" aria-labelledby="encode-tab">
+                                    <div class="mb-3">
+                                        <label for="encodeInput" class="form-label">Text to Encode:</label>
+                                        <textarea class="form-control" id="encodeInput" rows="6" placeholder="Enter text to encode..."></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Encoding Type:</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="encodeType" id="encodeURI" value="uri" checked>
+                                            <label class="form-check-label" for="encodeURI">
+                                                encodeURI() - Encode a complete URI
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="encodeType" id="encodeURIComponent" value="component">
+                                            <label class="form-check-label" for="encodeURIComponent">
+                                                encodeURIComponent() - Encode a URI component
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex mb-3">
+                                        <button id="encodeBtn" class="btn btn-primary">
+                                            <i class="fas fa-code"></i> Encode
+                                        </button>
+                                        <button id="clearEncodeBtn" class="btn btn-outline-secondary">
+                                            <i class="fas fa-trash"></i> Clear
+                                        </button>
+                                        <button id="sampleEncodeBtn" class="btn btn-outline-info">
+                                            <i class="fas fa-lightbulb"></i> Sample Text
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="encodeOutput" class="form-label">Encoded Result:</label>
+                                        <div class="input-group">
+                                            <textarea class="form-control" id="encodeOutput" rows="6" readonly></textarea>
+                                            <button class="btn btn-outline-secondary" type="button" id="copyEncodeBtn">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Decode Tab -->
+                                <div class="tab-pane fade" id="decode" role="tabpanel" aria-labelledby="decode-tab">
+                                    <div class="mb-3">
+                                        <label for="decodeInput" class="form-label">Text to Decode:</label>
+                                        <textarea class="form-control" id="decodeInput" rows="6" placeholder="Enter encoded text to decode..."></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Decoding Type:</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="decodeType" id="decodeURI" value="uri" checked>
+                                            <label class="form-check-label" for="decodeURI">
+                                                decodeURI() - Decode a complete URI
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="decodeType" id="decodeURIComponent" value="component">
+                                            <label class="form-check-label" for="decodeURIComponent">
+                                                decodeURIComponent() - Decode a URI component
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex mb-3">
+                                        <button id="decodeBtn" class="btn btn-primary">
+                                            <i class="fas fa-code"></i> Decode
+                                        </button>
+                                        <button id="clearDecodeBtn" class="btn btn-outline-secondary">
+                                            <i class="fas fa-trash"></i> Clear
+                                        </button>
+                                        <button id="sampleDecodeBtn" class="btn btn-outline-info">
+                                            <i class="fas fa-lightbulb"></i> Sample Text
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="decodeOutput" class="form-label">Decoded Result:</label>
+                                        <div class="input-group">
+                                            <textarea class="form-control" id="decodeOutput" rows="6" readonly></textarea>
+                                            <button class="btn btn-outline-secondary" type="button" id="copyDecodeBtn">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">URL Encoding Table</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Character</th>
+                                            <th>Encoded Value</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Space</td><td>%20</td><td>Space character</td></tr>
+                                        <tr><td>!</td><td>%21</td><td>Exclamation mark</td></tr>
+                                        <tr><td>"</td><td>%22</td><td>Double quote</td></tr>
+                                        <tr><td>#</td><td>%23</td><td>Number sign</td></tr>
+                                        <tr><td>$</td><td>%24</td><td>Dollar sign</td></tr>
+                                        <tr><td>%</td><td>%25</td><td>Percent sign</td></tr>
+                                        <tr><td>&</td><td>%26</td><td>Ampersand</td></tr>
+                                        <tr><td>'</td><td>%27</td><td>Single quote</td></tr>
+                                        <tr><td>(</td><td>%28</td><td>Opening parenthesis</td></tr>
+                                        <tr><td>)</td><td>%29</td><td>Closing parenthesis</td></tr>
+                                        <tr><td>+</td><td>%2B</td><td>Plus sign</td></tr>
+                                        <tr><td>,</td><td>%2C</td><td>Comma</td></tr>
+                                        <tr><td>/</td><td>%2F</td><td>Forward slash</td></tr>
+                                        <tr><td>:</td><td>%3A</td><td>Colon</td></tr>
+                                        <tr><td>;</td><td>%3B</td><td>Semicolon</td></tr>
+                                        <tr><td>=</td><td>%3D</td><td>Equals sign</td></tr>
+                                        <tr><td>?</td><td>%3F</td><td>Question mark</td></tr>
+                                        <tr><td>@</td><td>%40</td><td>At sign</td></tr>
+                                        <tr><td>[</td><td>%5B</td><td>Opening bracket</td></tr>
+                                        <tr><td>]</td><td>%5D</td><td>Closing bracket</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">How to Use</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Encoding URLs:</h6>
+                            <ol>
+                                <li>Enter the URL or text you want to encode in the "Text to Encode" field</li>
+                                <li>Select the encoding type:
+                                    <ul>
+                                        <li><strong>encodeURI:</strong> For complete URLs (preserves valid URL characters)</li>
+                                        <li><strong>encodeURIComponent:</strong> For URL parameters (encodes all special characters)</li>
+                                    </ul>
+                                </li>
+                                <li>Click the "Encode" button to convert your text</li>
+                            </ol>
+                            
+                            <h6>Decoding URLs:</h6>
+                            <ol>
+                                <li>Enter the encoded URL text in the "Text to Decode" field</li>
+                                <li>Select the appropriate decoding method</li>
+                                <li>Click the "Decode" button to convert back to readable text</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">When to Use URL Encoding</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>When creating URLs with special characters</li>
+                                <li>When passing data in query parameters</li>
+                                <li>When submitting form data via GET method</li>
+                                <li>When building dynamic URLs with user input</li>
+                                <li>When working with APIs that require encoded parameters</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">Related Tools</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="base64-encoder-decoder.html">Base64 Encoder/Decoder</a></li>
+                                <li class="list-group-item"><a href="html-to-markdown.html">HTML to Markdown Converter</a></li>
+                                <li class="list-group-item"><a href="json-formatter.html">JSON Formatter</a></li>
+                                <li class="list-group-item"><a href="html-encoder-decoder.html">HTML Encoder/Decoder</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ad-container">
+                        <div class="ad-placeholder">Advertisement Space</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            // Encode tab elements
+            const encodeInput = document.getElementById('encodeInput');
+            const encodeOutput = document.getElementById('encodeOutput');
+            const encodeBtn = document.getElementById('encodeBtn');
+            const clearEncodeBtn = document.getElementById('clearEncodeBtn');
+            const sampleEncodeBtn = document.getElementById('sampleEncodeBtn');
+            const copyEncodeBtn = document.getElementById('copyEncodeBtn');
+            const encodeURIRadio = document.getElementById('encodeURI');
+            const encodeURIComponentRadio = document.getElementById('encodeURIComponent');
+            
+            // Decode tab elements
+            const decodeInput = document.getElementById('decodeInput');
+            const decodeOutput = document.getElementById('decodeOutput');
+            const decodeBtn = document.getElementById('decodeBtn');
+            const clearDecodeBtn = document.getElementById('clearDecodeBtn');
+            const sampleDecodeBtn = document.getElementById('sampleDecodeBtn');
+            const copyDecodeBtn = document.getElementById('copyDecodeBtn');
+            const decodeURIRadio = document.getElementById('decodeURI');
+            const decodeURIComponentRadio = document.getElementById('decodeURIComponent');
+            
+            // Encode functionality
+            encodeBtn.addEventListener('click', function() {
+                try {
+                    const inputText = encodeInput.value;
+                    let encodedText = '';
+                    
+                    if (encodeURIRadio.checked) {
+                        encodedText = encodeURI(inputText);
+                    } else if (encodeURIComponentRadio.checked) {
+                        encodedText = encodeURIComponent(inputText);
+                    }
+                    
+                    encodeOutput.value = encodedText;
+                } catch (error) {
+                    encodeOutput.value = `Error: ${error.message}`;
+                }
+            });
+            
+            clearEncodeBtn.addEventListener('click', function() {
+                encodeInput.value = '';
+                encodeOutput.value = '';
+            });
+            
+            sampleEncodeBtn.addEventListener('click', function() {
+                encodeInput.value = 'https://example.com/search?q=url encoding & decoding tests!';
+                encodeBtn.click();
+            });
+            
+            copyEncodeBtn.addEventListener('click', function() {
+                encodeOutput.select();
+                document.execCommand('copy');
+                
+                // Visual feedback
+                copyEncodeBtn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    copyEncodeBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 1500);
+            });
+            
+            // Decode functionality
+            decodeBtn.addEventListener('click', function() {
+                try {
+                    const inputText = decodeInput.value;
+                    let decodedText = '';
+                    
+                    if (decodeURIRadio.checked) {
+                        decodedText = decodeURI(inputText);
+                    } else if (decodeURIComponentRadio.checked) {
+                        decodedText = decodeURIComponent(inputText);
+                    }
+                    
+                    decodeOutput.value = decodedText;
+                } catch (error) {
+                    decodeOutput.value = `Error: ${error.message}`;
+                }
+            });
+            
+            clearDecodeBtn.addEventListener('click', function() {
+                decodeInput.value = '';
+                decodeOutput.value = '';
+            });
+            
+            sampleDecodeBtn.addEventListener('click', function() {
+                decodeInput.value = 'https://example.com/search?q=url%20encoding%20%26%20decoding%20tests!';
+                decodeBtn.click();
+            });
+            
+            copyDecodeBtn.addEventListener('click', function() {
+                decodeOutput.select();
+                document.execCommand('copy');
+                
+                // Visual feedback
+                copyDecodeBtn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    copyDecodeBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 1500);
+            });
+            
+            // Tab functionality
+            const tabElements = document.querySelectorAll('button[data-bs-toggle="tab"]');
+            tabElements.forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function (event) {
+                    // Clear output when changing tabs
+                    if (event.target.id === 'encode-tab') {
+                        decodeOutput.value = '';
+                    } else if (event.target.id === 'decode-tab') {
+                        encodeOutput.value = '';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

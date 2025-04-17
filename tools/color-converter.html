@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Converter - HEX, RGB, HSL Converter | Your Tools</title>
+    <meta name="description" content="Convert colors between different formats including HEX, RGB, HSL, and more. Instantly visualize your colors and get matching color palettes.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Header will be injected here -->
+    <div id="header-placeholder"></div>
+
+    <main class="container my-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Tool Title and Description -->
+                <div class="tool-header mb-4">
+                    <h1 class="tool-title">Color Converter</h1>
+                    <p class="tool-description">
+                        Convert colors between HEX, RGB, HSL and other formats. Visualize your colors instantly and get complementary color schemes.
+                    </p>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="ad-container mb-4">
+                    <div class="ad-placeholder">
+                        <span>Advertisement Space</span>
+                    </div>
+                </div>
+
+                <!-- Color Input Sections -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Color Input</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Color Preview -->
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="text-center">
+                                    <div id="color-preview" class="color-preview mb-2"></div>
+                                    <p class="small mb-0">Current Color</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Color Input Forms -->
+                            <div class="col-md-8">
+                                <ul class="nav nav-tabs" id="colorTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="hex-tab" data-bs-toggle="tab" data-bs-target="#hex" type="button" role="tab" aria-controls="hex" aria-selected="true">HEX</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="rgb-tab" data-bs-toggle="tab" data-bs-target="#rgb" type="button" role="tab" aria-controls="rgb" aria-selected="false">RGB</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="hsl-tab" data-bs-toggle="tab" data-bs-target="#hsl" type="button" role="tab" aria-controls="hsl" aria-selected="false">HSL</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="picker-tab" data-bs-toggle="tab" data-bs-target="#picker" type="button" role="tab" aria-controls="picker" aria-selected="false">Picker</button>
+                                    </li>
+                                </ul>
+                                
+                                <div class="tab-content pt-3" id="colorTabsContent">
+                                    <!-- HEX Input -->
+                                    <div class="tab-pane fade show active" id="hex" role="tabpanel" aria-labelledby="hex-tab">
+                                        <div class="input-group">
+                                            <span class="input-group-text">#</span>
+                                            <input type="text" class="form-control" id="hex-input" placeholder="e.g. 1a2b3c" maxlength="6">
+                                            <button class="btn btn-primary" id="convert-from-hex">Convert</button>
+                                        </div>
+                                        <div class="form-text">Enter a 6-digit HEX color code without the # symbol</div>
+                                    </div>
+                                    
+                                    <!-- RGB Input -->
+                                    <div class="tab-pane fade" id="rgb" role="tabpanel" aria-labelledby="rgb-tab">
+                                        <div class="row g-2">
+                                            <div class="col-sm-4">
+                                                <label for="rgb-r" class="form-label">R</label>
+                                                <input type="number" class="form-control" id="rgb-r" min="0" max="255" placeholder="0-255">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="rgb-g" class="form-label">G</label>
+                                                <input type="number" class="form-control" id="rgb-g" min="0" max="255" placeholder="0-255">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="rgb-b" class="form-label">B</label>
+                                                <input type="number" class="form-control" id="rgb-b" min="0" max="255" placeholder="0-255">
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button class="btn btn-primary" id="convert-from-rgb">Convert</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- HSL Input -->
+                                    <div class="tab-pane fade" id="hsl" role="tabpanel" aria-labelledby="hsl-tab">
+                                        <div class="row g-2">
+                                            <div class="col-sm-4">
+                                                <label for="hsl-h" class="form-label">H</label>
+                                                <input type="number" class="form-control" id="hsl-h" min="0" max="360" placeholder="0-360">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="hsl-s" class="form-label">S %</label>
+                                                <input type="number" class="form-control" id="hsl-s" min="0" max="100" placeholder="0-100">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="hsl-l" class="form-label">L %</label>
+                                                <input type="number" class="form-control" id="hsl-l" min="0" max="100" placeholder="0-100">
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button class="btn btn-primary" id="convert-from-hsl">Convert</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Color Picker -->
+                                    <div class="tab-pane fade" id="picker" role="tabpanel" aria-labelledby="picker-tab">
+                                        <div class="mb-3">
+                                            <label for="color-picker" class="form-label">Choose Color</label>
+                                            <input type="color" class="form-control form-control-color w-100" id="color-picker" value="#1a73e8">
+                                        </div>
+                                        <button class="btn btn-primary" id="convert-from-picker">Use This Color</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Conversion Results -->
+                <div class="card mb-4" id="conversion-results">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Conversion Results</h2>
+                        <button class="btn btn-sm btn-outline-secondary" id="copy-all-btn">
+                            <i class="fas fa-copy me-1"></i> Copy All
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item">
+                                    <label class="form-label">HEX</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="result-hex" readonly>
+                                        <button class="btn btn-outline-secondary copy-btn" data-target="result-hex">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item">
+                                    <label class="form-label">RGB</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="result-rgb" readonly>
+                                        <button class="btn btn-outline-secondary copy-btn" data-target="result-rgb">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item">
+                                    <label class="form-label">HSL</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="result-hsl" readonly>
+                                        <button class="btn btn-outline-secondary copy-btn" data-target="result-hsl">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item">
+                                    <label class="form-label">CSS Variable</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="result-css-var" readonly>
+                                        <button class="btn btn-outline-secondary copy-btn" data-target="result-css-var">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item">
+                                    <label class="form-label">RGB Percentage</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="result-rgb-percent" readonly>
+                                        <button class="btn btn-outline-secondary copy-btn" data-target="result-rgb-percent">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item">
+                                    <label class="form-label">HSV</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="result-hsv" readonly>
+                                        <button class="btn btn-outline-secondary copy-btn" data-target="result-hsv">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Palette -->
+                <div class="card mb-4" id="color-palette">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Color Palette</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="palette-container">
+                            <div class="row g-2">
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="complementary"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Complementary</div>
+                                            <div class="palette-hex" id="complementary-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="complementary-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="analogous1"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Analogous 1</div>
+                                            <div class="palette-hex" id="analogous1-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="analogous1-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="analogous2"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Analogous 2</div>
+                                            <div class="palette-hex" id="analogous2-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="analogous2-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="triadic1"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Triadic 1</div>
+                                            <div class="palette-hex" id="triadic1-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="triadic1-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="triadic2"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Triadic 2</div>
+                                            <div class="palette-hex" id="triadic2-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="triadic2-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="monochromatic1"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Lighter</div>
+                                            <div class="palette-hex" id="monochromatic1-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="monochromatic1-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="monochromatic2"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Darker</div>
+                                            <div class="palette-hex" id="monochromatic2-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="monochromatic2-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="palette-box">
+                                        <div class="color-box" id="shades"></div>
+                                        <div class="palette-info">
+                                            <div class="palette-name">Shade</div>
+                                            <div class="palette-hex" id="shades-hex">#000000</div>
+                                            <button class="btn btn-sm btn-outline-secondary copy-palette-btn" data-target="shades-hex">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Colors -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Sample Colors</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #FF0000;" data-hex="FF0000"></div>
+                                <div class="text-center small">Red</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #00FF00;" data-hex="00FF00"></div>
+                                <div class="text-center small">Green</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #0000FF;" data-hex="0000FF"></div>
+                                <div class="text-center small">Blue</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #FFFF00;" data-hex="FFFF00"></div>
+                                <div class="text-center small">Yellow</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #FF00FF;" data-hex="FF00FF"></div>
+                                <div class="text-center small">Magenta</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #00FFFF;" data-hex="00FFFF"></div>
+                                <div class="text-center small">Cyan</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #FF5733;" data-hex="FF5733"></div>
+                                <div class="text-center small">Coral</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #8A2BE2;" data-hex="8A2BE2"></div>
+                                <div class="text-center small">BlueViolet</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #3CB371;" data-hex="3CB371"></div>
+                                <div class="text-center small">MediumSeaGreen</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #1E90FF;" data-hex="1E90FF"></div>
+                                <div class="text-center small">DodgerBlue</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #FFA500;" data-hex="FFA500"></div>
+                                <div class="text-center small">Orange</div>
+                            </div>
+                            <div class="col-4 col-md-2 mb-2">
+                                <div class="sample-color" style="background-color: #20B2AA;" data-hex="20B2AA"></div>
+                                <div class="text-center small">LightSeaGreen</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- How to Use Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">How to Use</h2>
+                    </div>
+                    <div class="card-body">
+                        <ol class="mb-0">
+                            <li>Enter a color in any of the available formats (HEX, RGB, HSL) or use the color picker.</li>
+                            <li>Click the "Convert" button to see the color in all formats.</li>
+                            <li>View color conversions and the generated color palette.</li>
+                            <li>Copy any format to your clipboard using the copy buttons.</li>
+                            <li>Explore sample colors or use the color picker for more options.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Related Tools -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Related Tools</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-image text-primary me-2"></i>
+                                <a href="../tools/image-color-picker.html" class="text-decoration-none stretched-link">Image Color Picker</a>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-palette text-primary me-2"></i>
+                                <a href="../tools/gradient-generator.html" class="text-decoration-none stretched-link">Gradient Generator</a>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-adjust text-primary me-2"></i>
+                                <a href="../tools/contrast-checker.html" class="text-decoration-none stretched-link">Contrast Checker</a>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-swatchbook text-primary me-2"></i>
+                                <a href="../tools/color-palette-generator.html" class="text-decoration-none stretched-link">Color Palette Generator</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Advertisement</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="ad-placeholder">
+                            <span>Advertisement Space</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be injected here -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+    <script src="../js/color-converter.js"></script>
+
+    <style>
+        .color-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
+            border: 1px solid #dee2e6;
+            background-color: #1a73e8;
+        }
+
+        .sample-color {
+            height: 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid #dee2e6;
+        }
+
+        .sample-color:hover {
+            transform: scale(1.05);
+        }
+
+        .color-box {
+            height: 50px;
+            border-radius: 5px 5px 0 0;
+            background-color: #000000;
+        }
+
+        .palette-info {
+            padding: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .palette-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .palette-hex {
+            font-size: 0.8rem;
+            font-family: monospace;
+            margin-right: 5px;
+        }
+
+        .copy-palette-btn {
+            padding: 0.1rem 0.4rem;
+            font-size: 0.7rem;
+        }
+
+        #color-picker {
+            height: 40px;
+        }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter - Your Tools</title>
+    <meta name="description" content="Convert text case to uppercase, lowercase, title case, sentence case, and more with this free online case converter tool.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <main class="container py-5">
+        <div class="tool-container">
+            <h1 class="tool-title">Case Converter</h1>
+            <p class="tool-description">Transform your text to different cases: UPPERCASE, lowercase, Title Case, Sentence case, and more.</p>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Text Input Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Enter Your Text</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <textarea class="form-control" id="input-text" rows="8" placeholder="Type or paste your text here to convert case..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-0"><span id="character-count">0</span> characters</p>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <button id="clear-btn" class="btn btn-sm btn-secondary">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Conversion Options -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Convert Case</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="uppercase-btn">
+                                        <i class="fas fa-arrow-up me-2"></i>UPPERCASE
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="lowercase-btn">
+                                        <i class="fas fa-arrow-down me-2"></i>lowercase
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="title-case-btn">
+                                        <i class="fas fa-font me-2"></i>Title Case
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="sentence-case-btn">
+                                        <i class="fas fa-pen me-2"></i>Sentence case
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="capitalized-case-btn">
+                                        <i class="fas fa-heading me-2"></i>Capitalized Case
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="alternating-case-btn">
+                                        <i class="fas fa-random me-2"></i>aLtErNaTiNg CaSe
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="inverse-case-btn">
+                                        <i class="fas fa-exchange-alt me-2"></i>InVeRsE CaSe
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="camel-case-btn">
+                                        <i class="fas fa-code me-2"></i>camelCase
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="pascal-case-btn">
+                                        <i class="fas fa-code me-2"></i>PascalCase
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="snake-case-btn">
+                                        <i class="fas fa-grip-lines me-2"></i>snake_case
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="kebab-case-btn">
+                                        <i class="fas fa-minus me-2"></i>kebab-case
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100" id="screaming-snake-case-btn">
+                                        <i class="fas fa-grip-lines me-2"></i>SCREAMING_SNAKE
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Result Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">Result</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <textarea class="form-control" id="output-text" rows="8" readonly></textarea>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success" id="copy-btn">Copy to Clipboard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- About Case Converter -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">About Text Cases</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-arrow-up text-primary me-2"></i>UPPERCASE</h6>
+                                    <p class="small">All characters are converted to uppercase letters.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-arrow-down text-primary me-2"></i>lowercase</h6>
+                                    <p class="small">All characters are converted to lowercase letters.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-font text-primary me-2"></i>Title Case</h6>
+                                    <p class="small">The first letter of each word is capitalized.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-pen text-primary me-2"></i>Sentence case</h6>
+                                    <p class="small">The first letter of each sentence is capitalized.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-heading text-primary me-2"></i>Capitalized Case</h6>
+                                    <p class="small">Only the first letter of the entire text is capitalized.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-code text-primary me-2"></i>camelCase</h6>
+                                    <p class="small">First word lowercase, then first letter of each word capitalized with no spaces.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-code text-primary me-2"></i>PascalCase</h6>
+                                    <p class="small">First letter of each word capitalized with no spaces.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><i class="fas fa-grip-lines text-primary me-2"></i>snake_case</h6>
+                                    <p class="small">All lowercase with underscores between words.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Use Cases -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Use Cases</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-code text-primary me-2"></i>
+                                    <strong>Programming</strong> - Convert variable names between different naming conventions (camelCase, snake_case, etc.)
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-file-alt text-primary me-2"></i>
+                                    <strong>Document Editing</strong> - Format titles, headings, or text for consistency
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-bullhorn text-primary me-2"></i>
+                                    <strong>Marketing</strong> - Create proper title case for headlines and email subjects
+                                </li>
+                                <li>
+                                    <i class="fas fa-table text-primary me-2"></i>
+                                    <strong>Data Cleaning</strong> - Standardize text data for database entries
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer dynamically
+            loadComponent('header-placeholder', '../header.html');
+            loadComponent('footer-placeholder', '../footer.html');
+            
+            // Get elements
+            const inputText = document.getElementById('input-text');
+            const outputText = document.getElementById('output-text');
+            const characterCount = document.getElementById('character-count');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            
+            // Button elements
+            const uppercaseBtn = document.getElementById('uppercase-btn');
+            const lowercaseBtn = document.getElementById('lowercase-btn');
+            const titleCaseBtn = document.getElementById('title-case-btn');
+            const sentenceCaseBtn = document.getElementById('sentence-case-btn');
+            const capitalizedCaseBtn = document.getElementById('capitalized-case-btn');
+            const alternatingCaseBtn = document.getElementById('alternating-case-btn');
+            const inverseCaseBtn = document.getElementById('inverse-case-btn');
+            const camelCaseBtn = document.getElementById('camel-case-btn');
+            const pascalCaseBtn = document.getElementById('pascal-case-btn');
+            const snakeCaseBtn = document.getElementById('snake-case-btn');
+            const kebabCaseBtn = document.getElementById('kebab-case-btn');
+            const screamingSnakeCaseBtn = document.getElementById('screaming-snake-case-btn');
+            
+            // Update character count
+            inputText.addEventListener('input', function() {
+                characterCount.textContent = this.value.length;
+            });
+            
+            // Clear button
+            clearBtn.addEventListener('click', function() {
+                inputText.value = '';
+                outputText.value = '';
+                characterCount.textContent = '0';
+            });
+            
+            // Copy button
+            copyBtn.addEventListener('click', function() {
+                if (outputText.value) {
+                    outputText.select();
+                    document.execCommand('copy');
+                    
+                    // Change button text temporarily
+                    const originalText = this.textContent;
+                    this.textContent = 'Copied!';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-secondary');
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.classList.remove('btn-secondary');
+                        this.classList.add('btn-success');
+                    }, 2000);
+                }
+            });
+            
+            // Case conversion functions
+            
+            // Convert to UPPERCASE
+            uppercaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    outputText.value = inputText.value.toUpperCase();
+                }
+            });
+            
+            // Convert to lowercase
+            lowercaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    outputText.value = inputText.value.toLowerCase();
+                }
+            });
+            
+            // Convert to Title Case
+            titleCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    outputText.value = inputText.value
+                        .toLowerCase()
+                        .split(' ')
+                        .map(word => {
+                            return word.charAt(0).toUpperCase() + word.slice(1);
+                        })
+                        .join(' ');
+                }
+            });
+            
+            // Convert to Sentence case
+            sentenceCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    // Split by sentence ending punctuation
+                    outputText.value = inputText.value
+                        .toLowerCase()
+                        .replace(/(^\s*|\.\s+|\?\s+|\!\s+)([a-z])/g, function(match, p1, p2) {
+                            return p1 + p2.toUpperCase();
+                        });
+                }
+            });
+            
+            // Convert to Capitalized Case
+            capitalizedCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    const text = inputText.value.toLowerCase();
+                    outputText.value = text.charAt(0).toUpperCase() + text.slice(1);
+                }
+            });
+            
+            // Convert to aLtErNaTiNg CaSe
+            alternatingCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    outputText.value = inputText.value
+                        .split('')
+                        .map((char, index) => {
+                            return index % 2 === 0 ? char.toLowerCase() : char.toUpperCase();
+                        })
+                        .join('');
+                }
+            });
+            
+            // Convert to InVeRsE CaSe
+            inverseCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    outputText.value = inputText.value
+                        .split('')
+                        .map(char => {
+                            if (char === char.toUpperCase()) {
+                                return char.toLowerCase();
+                            } else {
+                                return char.toUpperCase();
+                            }
+                        })
+                        .join('');
+                }
+            });
+            
+            // Convert to camelCase
+            camelCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    // Remove special characters and replace with spaces
+                    const text = inputText.value.replace(/[^\w\s]/g, ' ');
+                    
+                    outputText.value = text
+                        .toLowerCase()
+                        .split(/\s+/)
+                        .map((word, index) => {
+                            // First word lowercase, rest with first letter uppercase
+                            return index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1);
+                        })
+                        .join('');
+                }
+            });
+            
+            // Convert to PascalCase
+            pascalCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    // Remove special characters and replace with spaces
+                    const text = inputText.value.replace(/[^\w\s]/g, ' ');
+                    
+                    outputText.value = text
+                        .toLowerCase()
+                        .split(/\s+/)
+                        .map(word => {
+                            // All words with first letter uppercase
+                            return word.charAt(0).toUpperCase() + word.slice(1);
+                        })
+                        .join('');
+                }
+            });
+            
+            // Convert to snake_case
+            snakeCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    // Remove special characters and replace with spaces
+                    const text = inputText.value.replace(/[^\w\s]/g, ' ');
+                    
+                    outputText.value = text
+                        .toLowerCase()
+                        .trim()
+                        .replace(/\s+/g, '_');
+                }
+            });
+            
+            // Convert to kebab-case
+            kebabCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    // Remove special characters and replace with spaces
+                    const text = inputText.value.replace(/[^\w\s]/g, ' ');
+                    
+                    outputText.value = text
+                        .toLowerCase()
+                        .trim()
+                        .replace(/\s+/g, '-');
+                }
+            });
+            
+            // Convert to SCREAMING_SNAKE_CASE
+            screamingSnakeCaseBtn.addEventListener('click', function() {
+                if (inputText.value) {
+                    // Remove special characters and replace with spaces
+                    const text = inputText.value.replace(/[^\w\s]/g, ' ');
+                    
+                    outputText.value = text
+                        .toUpperCase()
+                        .trim()
+                        .replace(/\s+/g, '_');
+                }
+            });
+            
+            // Load HTML components dynamically
+            function loadComponent(targetId, componentPath) {
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                
+                fetch(componentPath)
+                    .then(response => response.text())
+                    .then(html => {
+                        target.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error(`Error loading ${componentPath}:`, error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html> 

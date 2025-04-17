@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to Markdown Converter - Your Tools</title>
+    <meta name="description" content="Convert HTML to Markdown format with this free online converter tool. Simple and efficient conversion for your web content.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .editor-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .editor {
+            min-height: 250px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            padding: 1rem;
+        }
+        
+        .toolbar {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            padding: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .output-container {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .copy-notification {
+            display: none;
+            color: #28a745;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        
+        .sample-container {
+            margin-top: 1rem;
+        }
+        
+        .sample-btn {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .toolbar {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <main class="container py-5">
+        <div class="tool-container">
+            <h1 class="tool-title">HTML to Markdown Converter</h1>
+            <p class="tool-description">Convert your HTML code into clean, readable Markdown format. Perfect for creating documentation, README files, and more.</p>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Input Section -->
+                    <div class="editor-container">
+                        <h5>HTML Input</h5>
+                        <div class="toolbar">
+                            <button id="convert-btn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-sync-alt me-1"></i> Convert to Markdown
+                            </button>
+                            <button id="clear-btn" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-trash-alt me-1"></i> Clear
+                            </button>
+                            <span id="copy-html-notification" class="copy-notification">
+                                <i class="fas fa-check-circle me-1"></i> Copied to clipboard!
+                            </span>
+                        </div>
+                        <textarea id="html-input" class="form-control editor" placeholder="Paste your HTML code here..."></textarea>
+                    </div>
+                    
+                    <!-- Output Section -->
+                    <div class="editor-container">
+                        <h5>Markdown Output</h5>
+                        <div class="toolbar">
+                            <button id="copy-markdown-btn" class="btn btn-info btn-sm">
+                                <i class="fas fa-copy me-1"></i> Copy Markdown
+                            </button>
+                            <button id="download-btn" class="btn btn-success btn-sm">
+                                <i class="fas fa-download me-1"></i> Download as .md
+                            </button>
+                            <span id="copy-markdown-notification" class="copy-notification">
+                                <i class="fas fa-check-circle me-1"></i> Copied to clipboard!
+                            </span>
+                        </div>
+                        <textarea id="markdown-output" class="form-control editor" placeholder="Markdown output will appear here..." readonly></textarea>
+                    </div>
+                    
+                    <!-- Sample HTML Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Sample HTML Templates</h5>
+                        </div>
+                        <div class="card-body sample-container">
+                            <p>Try out our sample HTML templates:</p>
+                            <button class="btn btn-outline-primary btn-sm sample-btn" data-sample="basic">Basic Elements</button>
+                            <button class="btn btn-outline-primary btn-sm sample-btn" data-sample="table">HTML Table</button>
+                            <button class="btn btn-outline-primary btn-sm sample-btn" data-sample="list">Lists Example</button>
+                            <button class="btn btn-outline-primary btn-sm sample-btn" data-sample="article">Article Structure</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Options Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Conversion Options</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="keep-html" checked>
+                                        <label class="form-check-label" for="keep-html">
+                                            Keep HTML that can't be converted
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="simplify-links" checked>
+                                        <label class="form-check-label" for="simplify-links">
+                                            Simplify link syntax when possible
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="headers-with-id">
+                                        <label class="form-check-label" for="headers-with-id">
+                                            Add ID attributes to headings
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="prettify" checked>
+                                        <label class="form-check-label" for="prettify">
+                                            Prettify output
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <!-- Sidebar -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">How to Use</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-primary me-2"></i>
+                                    <strong>Input HTML:</strong> Paste your HTML code in the input box
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-primary me-2"></i>
+                                    <strong>Convert:</strong> Click the "Convert to Markdown" button
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-primary me-2"></i>
+                                    <strong>Adjust Options:</strong> Configure conversion settings as needed
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-primary me-2"></i>
+                                    <strong>Copy Result:</strong> Copy the Markdown code to your clipboard
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle text-primary me-2"></i>
+                                    <strong>Download:</strong> Save the result as a .md file
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Ad Section - Sidebar -->
+                    <div class="sidebar-ad mb-4">
+                        <div class="ad-container">
+                            <div class="ad-placeholder">Advertisement Space</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Related Tools -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Related Tools</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-code text-primary me-2"></i>
+                                    <a href="json-formatter.html" class="text-decoration-none">JSON Formatter</a>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fab fa-css3 text-primary me-2"></i>
+                                    <a href="css-minifier.html" class="text-decoration-none">CSS Minifier</a>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fab fa-js text-primary me-2"></i>
+                                    <a href="javascript-minifier.html" class="text-decoration-none">JavaScript Minifier</a>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-table text-primary me-2"></i>
+                                    <a href="sql-formatter.html" class="text-decoration-none">SQL Formatter</a>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-file-code text-primary me-2"></i>
+                                    <a href="markdown-to-html.html" class="text-decoration-none">Markdown to HTML</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Section -->
+            <div class="ad-section my-4 text-center">
+                <div class="ad-container">
+                    <div class="ad-placeholder">Advertisement Space</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const htmlInput = document.getElementById('html-input');
+            const markdownOutput = document.getElementById('markdown-output');
+            const convertBtn = document.getElementById('convert-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyMarkdownBtn = document.getElementById('copy-markdown-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const copyHtmlNotification = document.getElementById('copy-html-notification');
+            const copyMarkdownNotification = document.getElementById('copy-markdown-notification');
+            const sampleBtns = document.querySelectorAll('.sample-btn');
+            
+            // Options
+            const keepHtml = document.getElementById('keep-html');
+            const simplifyLinks = document.getElementById('simplify-links');
+            const headersWithId = document.getElementById('headers-with-id');
+            const prettify = document.getElementById('prettify');
+            
+            // Sample HTML templates
+            const sampleHtml = {
+                basic: `<h1>Hello World</h1>
+<p>This is a <strong>bold text</strong> and this is an <em>italic text</em>.</p>
+<p>This is a <a href="https://example.com">link to Example</a>.</p>
+<hr>
+<blockquote>
+  <p>This is a blockquote.</p>
+</blockquote>`,
+                table: `<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>USA</td>
+    </tr>
+    <tr>
+      <td>Jane Smith</td>
+      <td>32</td>
+      <td>Canada</td>
+    </tr>
+    <tr>
+      <td>Robert Johnson</td>
+      <td>45</td>
+      <td>UK</td>
+    </tr>
+  </tbody>
+</table>`,
+                list: `<h2>Unordered List</h2>
+<ul>
+  <li>Item 1</li>
+  <li>Item 2
+    <ul>
+      <li>Nested item 2.1</li>
+      <li>Nested item 2.2</li>
+    </ul>
+  </li>
+  <li>Item 3</li>
+</ul>
+
+<h2>Ordered List</h2>
+<ol>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
+</ol>`,
+                article: `<article>
+  <h1>Article Title</h1>
+  <p class="meta">Published on <time datetime="2023-01-15">January 15, 2023</time> by <a href="#">Author Name</a></p>
+  
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed euismod, nisl vel ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+  
+  <h2>Section 1</h2>
+  <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.</p>
+  
+  <h2>Section 2</h2>
+  <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+  
+  <figure>
+    <img src="image.jpg" alt="Description of the image">
+    <figcaption>Image caption goes here</figcaption>
+  </figure>
+  
+  <h3>Subsection 2.1</h3>
+  <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Donec rutrum congue leo eget malesuada.</p>
+  
+  <pre><code>// This is a code block
+function example() {
+  return "Hello World";
+}
+</code></pre>
+</article>`
+            };
+            
+            // Set up Showdown converter
+            let converter = new showdown.Converter({
+                tables: true,
+                simplifiedAutoLink: true,
+                strikethrough: true,
+                tasklists: true,
+                emoji: true
+            });
+            
+            // Function to convert HTML to Markdown
+            function convertHtmlToMarkdown() {
+                const html = htmlInput.value.trim();
+                
+                if (!html) {
+                    markdownOutput.value = '';
+                    return;
+                }
+                
+                try {
+                    // This is a simplified approach. In a real-world scenario,
+                    // you would use a more robust HTML to Markdown converter.
+                    // Showdown primarily converts Markdown to HTML, not the other way around.
+                    // For production, consider libraries like turndown.js
+                    
+                    // Here's a simulation of HTML to Markdown conversion
+                    let markdown = html
+                        .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1')
+                        .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1')
+                        .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1')
+                        .replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1')
+                        .replace(/<h5[^>]*>(.*?)<\/h5>/gi, '##### $1')
+                        .replace(/<h6[^>]*>(.*?)<\/h6>/gi, '###### $1')
+                        .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+                        .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
+                        .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
+                        .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
+                        .replace(/<a href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+                        .replace(/<blockquote[^>]*>(.*?)<\/blockquote>/gi, '> $1')
+                        .replace(/<code[^>]*>(.*?)<\/code>/gi, '`$1`')
+                        .replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/gi, '```\n$1\n```')
+                        .replace(/<hr[^>]*>/gi, '---')
+                        .replace(/<br[^>]*>/gi, '\n');
+                    
+                    // Handle lists (simplified)
+                    markdown = markdown
+                        .replace(/<ul[^>]*>([\s\S]*?)<\/ul>/gi, function(match, content) {
+                            return content.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, '- $1\n');
+                        })
+                        .replace(/<ol[^>]*>([\s\S]*?)<\/ol>/gi, function(match, content) {
+                            let index = 1;
+                            return content.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, function(match, item) {
+                                return `${index++}. ${item}\n`;
+                            });
+                        });
+                    
+                    // Simple table conversion (very basic)
+                    if (html.includes('<table>')) {
+                        const tableRegex = /<table[^>]*>([\s\S]*?)<\/table>/gi;
+                        markdown = markdown.replace(tableRegex, function(match, tableContent) {
+                            let result = '';
+                            
+                            // Extract headers
+                            const headerRegex = /<th[^>]*>(.*?)<\/th>/gi;
+                            let headers = [];
+                            let headerMatch;
+                            while ((headerMatch = headerRegex.exec(tableContent)) !== null) {
+                                headers.push(headerMatch[1]);
+                            }
+                            
+                            if (headers.length > 0) {
+                                result += '| ' + headers.join(' | ') + ' |\n';
+                                result += '| ' + headers.map(() => '---').join(' | ') + ' |\n';
+                                
+                                // Extract rows
+                                const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+                                let rowMatch;
+                                let inTbody = false;
+                                
+                                while ((rowMatch = rowRegex.exec(tableContent)) !== null) {
+                                    if (rowMatch[1].includes('<th')) continue; // Skip header row
+                                    
+                                    const cellRegex = /<td[^>]*>(.*?)<\/td>/gi;
+                                    let cells = [];
+                                    let cellMatch;
+                                    
+                                    while ((cellMatch = cellRegex.exec(rowMatch[1])) !== null) {
+                                        cells.push(cellMatch[1]);
+                                    }
+                                    
+                                    if (cells.length > 0) {
+                                        result += '| ' + cells.join(' | ') + ' |\n';
+                                    }
+                                }
+                            }
+                            
+                            return result;
+                        });
+                    }
+                    
+                    // Handle paragraphs (do this last to avoid conflicts)
+                    markdown = markdown.replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n');
+                    
+                    // Clean up extra tags
+                    if (!keepHtml.checked) {
+                        markdown = markdown.replace(/<[^>]*>/g, '');
+                    }
+                    
+                    // Clean up extra newlines
+                    markdown = markdown.replace(/\n{3,}/g, '\n\n');
+                    
+                    markdownOutput.value = markdown.trim();
+                } catch (error) {
+                    console.error('Conversion error:', error);
+                    markdownOutput.value = 'Error converting HTML to Markdown. Please check your HTML syntax.';
+                }
+            }
+            
+            // Event listeners
+            convertBtn.addEventListener('click', convertHtmlToMarkdown);
+            
+            clearBtn.addEventListener('click', function() {
+                htmlInput.value = '';
+                markdownOutput.value = '';
+            });
+            
+            htmlInput.addEventListener('paste', function() {
+                // Small delay to ensure the paste completes
+                setTimeout(convertHtmlToMarkdown, 100);
+            });
+            
+            copyMarkdownBtn.addEventListener('click', function() {
+                markdownOutput.select();
+                document.execCommand('copy');
+                
+                copyMarkdownNotification.style.display = 'inline-block';
+                setTimeout(function() {
+                    copyMarkdownNotification.style.display = 'none';
+                }, 2000);
+            });
+            
+            downloadBtn.addEventListener('click', function() {
+                const markdown = markdownOutput.value;
+                if (markdown.trim() === '') return;
+                
+                const blob = new Blob([markdown], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted-markdown.md';
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            });
+            
+            // Sample buttons event listeners
+            sampleBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const sampleType = this.getAttribute('data-sample');
+                    htmlInput.value = sampleHtml[sampleType] || '';
+                    convertHtmlToMarkdown();
+                });
+            });
+            
+            // Options event listeners
+            [keepHtml, simplifyLinks, headersWithId, prettify].forEach(function(option) {
+                option.addEventListener('change', convertHtmlToMarkdown);
+            });
+        });
+    </script>
+</body>
+</html> 

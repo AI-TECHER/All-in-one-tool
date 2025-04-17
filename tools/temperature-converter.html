@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter | Your Tools</title>
+    <meta name="description" content="Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine scales with this free online temperature converter tool.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .temperature-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .temp-hot {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #9c3b00;
+        }
+        .temp-cold {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: #004887;
+        }
+        .temp-moderate {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #005a3c;
+        }
+        .temp-extreme-hot {
+            background: linear-gradient(135deg, #ff9a9e 0%, #ff5e62 100%);
+            color: #810000;
+        }
+        .temp-extreme-cold {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            color: #3a0080;
+        }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will load here -->
+    <div id="header-container"></div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Tool Title -->
+                <div class="tool-header mb-4">
+                    <h1 class="mb-3">Temperature Converter</h1>
+                    <p class="lead">Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine scales. Fast, free, and accurate temperature conversion for science, cooking, weather, and more.</p>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="ad-container my-4">
+                    <div class="ad-placeholder">
+                        <span>Advertisement Space</span>
+                    </div>
+                </div>
+
+                <!-- Converter Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Temperature Converter</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="input-value" class="form-label">Value</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="input-value" placeholder="Enter temperature value" step="0.01">
+                                    <select class="form-select" id="input-unit" style="max-width: 120px;">
+                                        <option value="celsius" selected>Celsius</option>
+                                        <option value="fahrenheit">Fahrenheit</option>
+                                        <option value="kelvin">Kelvin</option>
+                                        <option value="rankine">Rankine</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="convert-btn" class="form-label d-block">&nbsp;</label>
+                                <button id="convert-btn" class="btn btn-primary me-2">
+                                    <i class="fas fa-exchange-alt me-1"></i>Convert
+                                </button>
+                                <button id="clear-btn" class="btn btn-outline-secondary">
+                                    <i class="fas fa-trash-alt me-1"></i>Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Conversion Results</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="temperature-display" class="temperature-display mb-4">
+                            Enter a temperature to convert
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Celsius (°C)</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="celsius-value" class="h4 mb-0">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Fahrenheit (°F)</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="fahrenheit-value" class="h4 mb-0">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Kelvin (K)</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="kelvin-value" class="h4 mb-0">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Rankine (°R)</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="rankine-value" class="h4 mb-0">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Facts Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Temperature Reference Points</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Phenomenon</th>
+                                        <th>Celsius (°C)</th>
+                                        <th>Fahrenheit (°F)</th>
+                                        <th>Kelvin (K)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Absolute Zero</td>
+                                        <td>-273.15</td>
+                                        <td>-459.67</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Freezing Point of Water</td>
+                                        <td>0</td>
+                                        <td>32</td>
+                                        <td>273.15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Body Temperature</td>
+                                        <td>37</td>
+                                        <td>98.6</td>
+                                        <td>310.15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Boiling Point of Water</td>
+                                        <td>100</td>
+                                        <td>212</td>
+                                        <td>373.15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Surface of the Sun</td>
+                                        <td>5,505</td>
+                                        <td>9,941</td>
+                                        <td>5,778</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Conversion Formulas Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Temperature Conversion Formulas</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Celsius to Fahrenheit</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">°F = (°C × 9/5) + 32</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Fahrenheit to Celsius</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">°C = (°F - 32) × 5/9</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Celsius to Kelvin</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">K = °C + 273.15</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Kelvin to Celsius</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">°C = K - 273.15</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- How to Use Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">How to Use</h5>
+                    </div>
+                    <div class="card-body">
+                        <ol class="ps-3">
+                            <li class="mb-2">Enter a temperature value in the input field.</li>
+                            <li class="mb-2">Select the unit of the temperature you entered (Celsius, Fahrenheit, Kelvin, or Rankine).</li>
+                            <li class="mb-2">Click the "Convert" button to see the temperature in all scales.</li>
+                            <li class="mb-2">View the conversion results in the dedicated cards below.</li>
+                            <li class="mb-2">To start over, click the "Clear" button.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- About Temperature Scales Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">About Temperature Scales</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6>Celsius (°C)</h6>
+                        <p>Used in most countries, where 0°C is the freezing point of water and 100°C is the boiling point at standard pressure.</p>
+                        
+                        <h6>Fahrenheit (°F)</h6>
+                        <p>Common in the United States, where 32°F is freezing and 212°F is boiling for water at standard pressure.</p>
+                        
+                        <h6>Kelvin (K)</h6>
+                        <p>The SI unit of temperature used in scientific measurements. 0K is absolute zero, the theoretically lowest possible temperature.</p>
+                        
+                        <h6>Rankine (°R)</h6>
+                        <p>An absolute temperature scale used in some engineering fields, primarily in the US. 0°R is absolute zero.</p>
+                    </div>
+                </div>
+
+                <!-- Related Tools -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Related Tools</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><a href="length-converter.html" class="text-decoration-none"><i class="fas fa-ruler me-2"></i>Length Converter</a></li>
+                            <li class="list-group-item"><a href="weight-converter.html" class="text-decoration-none"><i class="fas fa-weight me-2"></i>Weight Converter</a></li>
+                            <li class="list-group-item"><a href="volume-converter.html" class="text-decoration-none"><i class="fas fa-flask me-2"></i>Volume Converter</a></li>
+                            <li class="list-group-item"><a href="speed-converter.html" class="text-decoration-none"><i class="fas fa-tachometer-alt me-2"></i>Speed Converter</a></li>
+                            <li class="list-group-item"><a href="time-converter.html" class="text-decoration-none"><i class="fas fa-clock me-2"></i>Time Converter</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="ad-container mb-4">
+                    <div class="ad-placeholder">
+                        <span>Advertisement Space</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will load here -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const inputValue = document.getElementById('input-value');
+            const inputUnit = document.getElementById('input-unit');
+            const convertBtn = document.getElementById('convert-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const temperatureDisplay = document.getElementById('temperature-display');
+            const celsiusValue = document.getElementById('celsius-value');
+            const fahrenheitValue = document.getElementById('fahrenheit-value');
+            const kelvinValue = document.getElementById('kelvin-value');
+            const rankineValue = document.getElementById('rankine-value');
+            
+            // Convert temperatures
+            function convertTemperatures() {
+                // Get input
+                const value = parseFloat(inputValue.value);
+                const unit = inputUnit.value;
+                
+                // Check for valid input
+                if (isNaN(value)) {
+                    temperatureDisplay.textContent = "Please enter a valid number";
+                    resetOutputs();
+                    return;
+                }
+                
+                // Calculate values in all units
+                let celsius, fahrenheit, kelvin, rankine;
+                
+                switch (unit) {
+                    case 'celsius':
+                        celsius = value;
+                        fahrenheit = (value * 9/5) + 32;
+                        kelvin = value + 273.15;
+                        rankine = (value + 273.15) * 9/5;
+                        break;
+                    case 'fahrenheit':
+                        celsius = (value - 32) * 5/9;
+                        fahrenheit = value;
+                        kelvin = (value - 32) * 5/9 + 273.15;
+                        rankine = value + 459.67;
+                        break;
+                    case 'kelvin':
+                        celsius = value - 273.15;
+                        fahrenheit = (value - 273.15) * 9/5 + 32;
+                        kelvin = value;
+                        rankine = value * 9/5;
+                        break;
+                    case 'rankine':
+                        celsius = (value - 491.67) * 5/9;
+                        fahrenheit = value - 459.67;
+                        kelvin = value * 5/9;
+                        rankine = value;
+                        break;
+                }
+                
+                // Set display values (limit to 2 decimal places)
+                celsiusValue.textContent = celsius.toFixed(2) + " °C";
+                fahrenheitValue.textContent = fahrenheit.toFixed(2) + " °F";
+                kelvinValue.textContent = kelvin.toFixed(2) + " K";
+                rankineValue.textContent = rankine.toFixed(2) + " °R";
+                
+                // Update temperature display based on Celsius value
+                temperatureDisplay.textContent = celsius.toFixed(2) + " °C | " + fahrenheit.toFixed(2) + " °F";
+                
+                // Apply visual class based on temperature
+                temperatureDisplay.className = 'temperature-display';
+                if (celsius < -50) {
+                    temperatureDisplay.classList.add('temp-extreme-cold');
+                } else if (celsius < 0) {
+                    temperatureDisplay.classList.add('temp-cold');
+                } else if (celsius < 30) {
+                    temperatureDisplay.classList.add('temp-moderate');
+                } else if (celsius < 80) {
+                    temperatureDisplay.classList.add('temp-hot');
+                } else {
+                    temperatureDisplay.classList.add('temp-extreme-hot');
+                }
+            }
+            
+            // Reset output values
+            function resetOutputs() {
+                celsiusValue.textContent = "-";
+                fahrenheitValue.textContent = "-";
+                kelvinValue.textContent = "-";
+                rankineValue.textContent = "-";
+                temperatureDisplay.textContent = "Enter a temperature to convert";
+                temperatureDisplay.className = 'temperature-display';
+            }
+            
+            // Clear all values
+            function clearValues() {
+                inputValue.value = "";
+                resetOutputs();
+                inputValue.focus();
+            }
+            
+            // Event Listeners
+            convertBtn.addEventListener('click', convertTemperatures);
+            clearBtn.addEventListener('click', clearValues);
+            
+            // Also convert on Enter key press
+            inputValue.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    convertTemperatures();
+                }
+            });
+            
+            // Set initial focus
+            inputValue.focus();
+        });
+    </script>
+</body>
+</html> 

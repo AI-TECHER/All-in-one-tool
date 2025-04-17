@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech Converter - Your Tools</title>
+    <meta name="description" content="Convert text to natural-sounding speech with our free online Text to Speech tool. Choose from multiple voices and download as MP3.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Tool Title -->
+                <h1 class="tool-title mb-3">Text to Speech Converter</h1>
+                <p class="tool-description mb-4">Convert your text to realistic speech with our free online Text to Speech tool. Choose from multiple voices, adjust speed and pitch, and download as MP3.</p>
+                
+                <!-- Ad Container -->
+                <div class="ad-container mb-4">
+                    <div class="ad-placeholder">
+                        <span>Advertisement</span>
+                    </div>
+                </div>
+                
+                <!-- Text Input -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-keyboard me-2"></i>Enter Your Text</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <textarea id="text-input" class="form-control" rows="8" placeholder="Type or paste your text here (up to 5000 characters)..."></textarea>
+                            <div class="d-flex justify-content-between mt-2">
+                                <small id="char-counter">0/5000 characters</small>
+                                <div>
+                                    <button id="clear-btn" class="btn btn-sm btn-outline-secondary me-2">
+                                        <i class="fas fa-trash-alt me-1"></i>Clear
+                                    </button>
+                                    <button id="paste-btn" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-paste me-1"></i>Paste
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="voice-select" class="form-label">Voice</label>
+                                <select id="voice-select" class="form-select">
+                                    <option value="">Loading voices...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="language-select" class="form-label">Language</label>
+                                <select id="language-select" class="form-select">
+                                    <option value="en-US">English (US)</option>
+                                    <option value="en-GB">English (UK)</option>
+                                    <option value="es-ES">Spanish</option>
+                                    <option value="fr-FR">French</option>
+                                    <option value="de-DE">German</option>
+                                    <option value="it-IT">Italian</option>
+                                    <option value="ja-JP">Japanese</option>
+                                    <option value="ko-KR">Korean</option>
+                                    <option value="zh-CN">Chinese (Simplified)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="rate-slider" class="form-label">Speed: <span id="rate-value">1</span>x</label>
+                                <input type="range" class="form-range" id="rate-slider" min="0.5" max="2" step="0.1" value="1">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pitch-slider" class="form-label">Pitch: <span id="pitch-value">1</span></label>
+                                <input type="range" class="form-range" id="pitch-slider" min="0.5" max="2" step="0.1" value="1">
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button id="speak-btn" class="btn btn-primary">
+                                <i class="fas fa-play me-2"></i>Speak Text
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Audio Player -->
+                <div id="audio-container" class="card mb-4 d-none">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-headphones me-2"></i>Your Speech</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <audio id="audio-player" controls class="w-100"></audio>
+                        </div>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button id="download-btn" class="btn btn-success">
+                                <i class="fas fa-download me-2"></i>Download MP3
+                            </button>
+                            <button id="new-text-btn" class="btn btn-outline-primary">
+                                <i class="fas fa-plus me-2"></i>New Text
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent History -->
+                <div id="history-container" class="card mb-4 d-none">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Conversions</h5>
+                        <button id="clear-history-btn" class="btn btn-sm btn-light">Clear History</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="history-list" class="list-group">
+                            <!-- History items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- How to Use -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>How to Use</h5>
+                    </div>
+                    <div class="card-body">
+                        <ol class="mb-0">
+                            <li>Enter or paste your text in the input box</li>
+                            <li>Select your preferred voice and language</li>
+                            <li>Adjust speech rate and pitch if needed</li>
+                            <li>Click "Speak Text" to generate speech</li>
+                            <li>Listen to the result and download as MP3 if desired</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <!-- Related Tools -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-tools me-2"></i>Related Tools</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="word-counter.html"><i class="fas fa-calculator me-2"></i>Word Counter</a></li>
+                            <li class="list-group-item"><a href="text-translator.html"><i class="fas fa-language me-2"></i>Text Translator</a></li>
+                            <li class="list-group-item"><a href="text-case-converter.html"><i class="fas fa-font me-2"></i>Text Case Converter</a></li>
+                            <li class="list-group-item"><a href="text-summarizer.html"><i class="fas fa-compress-alt me-2"></i>Text Summarizer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Ad Container -->
+                <div class="ad-container">
+                    <div class="ad-placeholder">
+                        <span>Advertisement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/text-to-speech.js"></script>
+</body>
+</html> 

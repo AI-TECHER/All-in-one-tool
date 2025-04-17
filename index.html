@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tools - 100+ Free Online Tools & Utilities</title>
+    <meta name="description" content="Your Tools offers 100+ free online tools including converters, calculators, formatters, and more. All tools are free to use with no registration required.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be loaded dynamically -->
+    <div id="header-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="hero-title">100+ Free Online Tools</h1>
+            <p class="hero-subtitle">All the tools you need, in one place. No registration required.</p>
+            
+            <!-- Hero Search -->
+            <div class="hero-search">
+                <form id="hero-search-form" class="d-flex">
+                    <input type="search" id="hero-search-input" class="form-control form-control-lg" placeholder="Search for a tool...">
+                    <button type="submit" class="btn btn-light ms-2">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container py-4">
+        <!-- Ad Section -->
+        <div class="hero-ad-section text-center">
+            <div class="ad-container">
+                <div class="ad-placeholder">Advertisement Space</div>
+            </div>
+        </div>
+        
+        <!-- Popular Tools Section -->
+        <section class="my-5">
+            <h2 class="text-center mb-4">Popular Tools</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="image">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <h5 class="card-title">Image to PNG</h5>
+                            <p class="card-text">Convert any image to PNG format instantly.</p>
+                            <a href="tools/image-to-png.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="calculator">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h5 class="card-title">Percentage Calculator</h5>
+                            <p class="card-text">Calculate percentages easily.</p>
+                            <a href="tools/percentage-calculator.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="developer">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h5 class="card-title">JSON Formatter</h5>
+                            <p class="card-text">Beautify and validate your JSON code.</p>
+                            <a href="tools/json-formatter.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="text">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <h5 class="card-title">Case Converter</h5>
+                            <p class="card-text">Convert text between different cases.</p>
+                            <a href="tools/case-converter.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="tool-card">
+                        <div class="tool-icon"><i class="fas fa-link"></i></div>
+                        <div class="tool-details">
+                            <h3 class="tool-title">URL Shortener</h3>
+                            <p class="tool-description">Shorten long URLs into compact links that are easier to share and track.</p>
+                            <a href="tools/url-shortener.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Search Results Section -->
+        <section id="search-results" class="my-5 search-results">
+            <div class="tool-container">
+                <h2 id="results-found" class="mb-4">Search Results</h2>
+                <div class="loader"></div>
+                <div class="row" id="results-list">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Video Tools Section -->
+        <section id="video-tools" class="category-section">
+            <h2 class="category-title">Video Tools</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="video">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h5 class="card-title">Video Editor</h5>
+                            <p class="card-text">Edit videos with basic operations.</p>
+                            <a href="tools/video-editor.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="video">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-cut"></i>
+                            </div>
+                            <h5 class="card-title">Clip Editor</h5>
+                            <p class="card-text">Trim and cut video clips easily.</p>
+                            <a href="tools/clip-editor.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="video">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <h5 class="card-title">Audio Video Merger</h5>
+                            <p class="card-text">Combine audio and video files.</p>
+                            <a href="tools/audio-video-merger.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="video">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <h5 class="card-title">Video Enhancer</h5>
+                            <p class="card-text">Enhance video quality and effects.</p>
+                            <a href="tools/video-enhancer.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="video">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-eraser"></i>
+                            </div>
+                            <h5 class="card-title">Watermark Remover</h5>
+                            <p class="card-text">Remove watermarks from videos.</p>
+                            <a href="tools/watermark-remover.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Image Tools Section -->
+        <section id="image-tools" class="category-section">
+            <h2 class="category-title">Image Tools</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="image">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-file-image"></i>
+                            </div>
+                            <h5 class="card-title">Image to PNG</h5>
+                            <p class="card-text">Convert any image to PNG format.</p>
+                            <a href="tools/image-to-png.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="image">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="far fa-file-image"></i>
+                            </div>
+                            <h5 class="card-title">Image to JPG</h5>
+                            <p class="card-text">Convert images to JPG format.</p>
+                            <a href="tools/image-to-jpg.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="image">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                            <h5 class="card-title">Image Resizer</h5>
+                            <p class="card-text">Resize images to any dimension.</p>
+                            <a href="tools/image-resizer.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="image">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-compress"></i>
+                            </div>
+                            <h5 class="card-title">Image Compressor</h5>
+                            <p class="card-text">Reduce image file size.</p>
+                            <a href="tools/image-compressor.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional image tools would be added here -->
+            </div>
+        </section>
+        
+        <!-- Ad Section -->
+        <div class="text-center my-5">
+            <div class="ad-container">
+                <div class="ad-placeholder">Advertisement Space</div>
+            </div>
+        </div>
+        
+        <!-- Developer Tools Section -->
+        <section id="developer-tools" class="category-section">
+            <h2 class="category-title">Developer Tools</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="developer">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h5 class="card-title">JSON Formatter</h5>
+                            <p class="card-text">Format and validate JSON data.</p>
+                            <a href="tools/json-formatter.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="developer">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fab fa-markdown"></i>
+                            </div>
+                            <h5 class="card-title">HTML to Markdown</h5>
+                            <p class="card-text">Convert HTML to Markdown.</p>
+                            <a href="tools/html-to-markdown.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="developer">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fab fa-css3"></i>
+                            </div>
+                            <h5 class="card-title">CSS Minifier</h5>
+                            <p class="card-text">Compress CSS files.</p>
+                            <a href="tools/css-minifier.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="developer">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fab fa-js"></i>
+                            </div>
+                            <h5 class="card-title">JavaScript Minifier</h5>
+                            <p class="card-text">Minify JavaScript code.</p>
+                            <a href="tools/javascript-minifier.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional developer tools would be added here -->
+            </div>
+        </section>
+        
+        <!-- Math & Calculators Section -->
+        <section id="math-calculators" class="category-section">
+            <h2 class="category-title">Math & Calculators</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="calculator">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <h5 class="card-title">Percentage Calculator</h5>
+                            <p class="card-text">Calculate percentages easily.</p>
+                            <a href="tools/percentage-calculator.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="calculator">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h5 class="card-title">Scientific Calculator</h5>
+                            <p class="card-text">Advanced scientific calculations.</p>
+                            <a href="tools/scientific-calculator.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="calculator">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h5 class="card-title">Age Calculator</h5>
+                            <p class="card-text">Calculate age from birthday.</p>
+                            <a href="tools/age-calculator.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="calculator">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <h5 class="card-title">BMI Calculator</h5>
+                            <p class="card-text">Calculate body mass index.</p>
+                            <a href="tools/bmi-calculator.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional calculator tools would be added here -->
+            </div>
+        </section>
+        
+        <!-- Text Tools Section -->
+        <section id="text-tools" class="category-section">
+            <h2 class="category-title">Text Tools</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="text">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <h5 class="card-title">Case Converter</h5>
+                            <p class="card-text">Convert text between different cases.</p>
+                            <a href="tools/case-converter.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="text">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-align-left"></i>
+                            </div>
+                            <h5 class="card-title">Word Counter</h5>
+                            <p class="card-text">Count words, characters, and more.</p>
+                            <a href="tools/word-counter.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="text">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-spell-check"></i>
+                            </div>
+                            <h5 class="card-title">Grammar Checker</h5>
+                            <p class="card-text">Check grammar and spelling.</p>
+                            <a href="tools/grammar-checker.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card tool-card h-100" data-category="text">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <h5 class="card-title">Text-to-Speech</h5>
+                            <p class="card-text">Convert text to spoken audio.</p>
+                            <a href="tools/text-to-speech.html" class="btn btn-primary">Use Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional text tools would be added here -->
+            </div>
+        </section>
+        
+        <!-- More sections for other categories would be added here -->
+        
+        <!-- Back to Top Button -->
+        <a href="#" class="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </main>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Home page specific JS
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sync hero search with navbar search
+            const heroSearchForm = document.getElementById('hero-search-form');
+            const heroSearchInput = document.getElementById('hero-search-input');
+            
+            if (heroSearchForm && heroSearchInput) {
+                heroSearchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Transfer search term to main search
+                    const navSearchInput = document.getElementById('search-input');
+                    if (navSearchInput) {
+                        navSearchInput.value = heroSearchInput.value;
+                        
+                        // Trigger the main search form
+                        const searchForm = document.getElementById('search-form');
+                        if (searchForm) {
+                            searchForm.dispatchEvent(new Event('submit'));
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
